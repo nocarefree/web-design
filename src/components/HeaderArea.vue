@@ -1,0 +1,226 @@
+ <template>
+    <q-toolbar class="top-bar shadow-2">
+        <div class="row flex-center">
+            <q-btn flat dense>
+                <q-icon name="output" class="rotate-180 q-pl-sm" />
+                <span>退出</span>
+            </q-btn>
+        </div>
+        <div class="col-grow row justify-center q-pr-sm q-pl-sm">
+            <q-btn outline color="black" align="between" label="主页" icon-right="arrow_drop_down" style="width: 21.5625rem" >
+                <q-menu fit class="page-template-menu" :offset="[0, 5]">
+                    <q-list style="min-width: 100px">
+                        <q-item>
+                            <q-item-section>模板</q-item-section>
+                        </q-item>
+                        <q-separator />
+                        <q-item clickable v-for="template in pageTemplates" class="items-center">
+                            <q-item-section avatar>
+                                <component :is="template.svg"></component>
+                            </q-item-section>
+                            <q-item-section>{{ template.label }}</q-item-section>
+                        </q-item>
+                    </q-list>
+                </q-menu>
+            </q-btn>
+        </div>
+        <div class="row flex-center top-bar-right">
+            <q-btn flat desne size="md" class="screen-toggle-btn">
+                <q-icon v-if="currentScreen"><component :is="currentScreen.svg"></component></q-icon>
+                <q-menu fit class="screen-menu" :offset="[0, 5]"  persistent auto-close>
+                    <q-list style="min-width: 100px">
+                        <q-item clickable v-for="screen in screens" @click="onSwitchSceen(screen)" :class="['items-center', currentScreen?.value==screen.value?'active':'']">
+                            <button>
+                                <q-icon><component :is="screen.svg"></component></q-icon>
+                                <span class="block">{{ screen.label }}</span>
+                            </button>
+                        </q-item>
+                    </q-list>
+                </q-menu>
+            </q-btn>
+            <q-separator vertical  />
+
+            <q-btn flat desne size="md" class="screen-toggle-btn">
+                <q-icon><IconUndo /></q-icon>
+            </q-btn>
+            <q-btn flat desne size="md" class="screen-toggle-btn">
+                <q-icon><IconRedo /></q-icon>
+            </q-btn>
+
+            <q-separator vertical  />
+
+            <q-btn style="margin-left: 0.5rem;" unelevated color="primary"  size="md" label="保存" disabled />
+        </div>
+    </q-toolbar>
+</template>
+
+<script setup lang="ts">
+    import { ref, defineAsyncComponent  } from 'vue'
+    import IconHome from './icons/pageTypes/IconHome.vue'
+    import IconCollection from './icons/pageTypes/IconCollection.vue'
+    import IconProduct from './icons/pageTypes/IconProduct.vue'
+    import IconCart from './icons/pageTypes/IconCart.vue'
+    import IconArticle from './icons/pageTypes/IconArticle.vue'
+
+    import IconDesktop from './icons/screen/IconDesktop.vue'
+    import IconShort from './icons/screen/IconShort.vue'
+    import IconFull from './icons/screen/IconFull.vue'
+
+    import IconUndo from './icons/IconUndo.vue'
+    import IconRedo from './icons/IconRedo.vue'
+
+    interface PageTemplate {
+        label: string,
+        value: string,
+        icon?: string,
+        svg?: any,
+    }
+
+    interface ScreenType {
+        label: string,
+        value: string,
+        icon?: string,
+        svg?: any,
+    }
+
+    const pageTemplates : Array<PageTemplate> = [
+        { label:'主页', value: 'home', svg: IconHome },
+        { label:'产品系列', value: 'collection', svg: IconCollection },
+        { label:'产品页', value: 'product', svg: IconProduct },
+        { label:'购物车', value: 'cart', svg: IconCart },
+        { label:'结账', value: 'checkout', svg: IconCart },
+        { label:'文章', value: 'article',svg: IconArticle },
+    ]
+
+    const screens : Array<ScreenType> = [
+        { label:'桌面', value: 'desktop', svg: IconDesktop },
+        { label:'移动版', value: 'mobile', svg: IconShort },
+        { label:'全屏', value: 'full', svg: IconFull },
+    ]
+
+    const currentScreen = ref<ScreenType>();
+    currentScreen.value = screens[0];
+
+    const onSwitchSceen = (screen:ScreenType)=>{
+        currentScreen.value = screen
+    } 
+
+</script>
+ 
+<style lang="scss">
+    .screen-toggle-btn{
+        min-width: 2.25rem!important;
+        min-height: 2.25rem!important;
+        padding:0!important;
+
+        i{
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    }
+    .q-item.active{
+        position:relative;
+    }
+
+    .page-template-menu .q-item,.screen-menu .q-item{
+        padding: 0.5rem 1rem;
+        width: 100%;
+        min-height: 2.75rem;
+        text-align: left;
+        transition-property: color,background-color;
+        transition-duration: .2s;
+        transition-timing-function: ease;
+    }
+    .page-template-menu .q-item__section--avatar, .screen-menu .q-item button i{
+        height: 1.25rem;
+        width: 1.25rem;
+        margin-right: 0.5rem;
+        padding-right: 0;
+        min-width: auto;
+    }
+    .page-template-menu svg, .screen-menu .q-item button  svg{
+        width: 100%;
+        height: 100%;
+    }
+
+    .screen-menu .q-list{
+        padding:8px;
+    }
+    .screen-menu .q-item{
+        appearance: none;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: none;
+        font-size: inherit;
+        line-height: inherit;
+        cursor: pointer;
+        width: 100%;
+        min-height: 2.25rem;
+        text-align: left;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-top: 4px;
+        color: inherit;
+
+        button{
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+            padding: 0;
+            background: none;
+            border: none;
+            font-size: inherit;
+            line-height: inherit;
+            color: inherit;
+            cursor: pointer;
+            text-align: left;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 8px;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+    }
+
+
+    .screen-menu .q-item.active{
+        background-color: rgb(242, 247, 254);
+
+        button:before {
+            content: "";
+            background-color: rgb(44, 110, 203);
+            position: absolute;
+            top: 0;
+            left: -8px;
+            height: 100%;
+            display: block;
+            width: 3px;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+    }
+
+    .top-bar{
+        height: 3.5rem;
+        >*{
+            height: 3.5rem;
+        }
+        .q-separator--vertical{
+            width: 0.0625rem;
+            background-color: #c4cdd5;
+            height: 100%;
+        }
+        .top-bar-right > * + *{
+            margin-left: 0.5rem;
+        }
+    }
+    
+    
+    
+ </style>

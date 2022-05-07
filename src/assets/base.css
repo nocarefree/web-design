@@ -1,0 +1,111 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --vt-c-white: #ffffff;
+  --vt-c-white-soft: #f8f8f8;
+  --vt-c-white-mute: #f2f2f2;
+
+  --vt-c-black: #181818;
+  --vt-c-black-soft: #222222;
+  --vt-c-black-mute: #282828;
+
+  --vt-c-indigo: #2c3e50;
+
+  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+  --vt-c-text-light-1: var(--vt-c-indigo);
+  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+  --vt-c-text-dark-1: var(--vt-c-white);
+  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+}
+
+/* semantic color variables for this project */
+:root {
+  --color-background: var(--vt-c-white);
+  --color-background-soft: var(--vt-c-white-soft);
+  --color-background-mute: var(--vt-c-white-mute);
+
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+
+  --color-heading: var(--vt-c-text-light-1);
+  --color-text: var(--vt-c-text-light-1);
+
+  --section-gap: 160px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  font-weight: normal;
+}
+
+html{
+  font-size: 0.9375rem;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ._AppProvider_1vddb_1585 {
+  --osui_version: "0.0.176";
+  --osui_animation-name-fade-in: osui_fade-in;
+  --osui_animation-name-fade-out: osui_fade-out;
+  --osui_animation-name-drag-handle-pulse: osui_drag-handle-pulse;
+  --osui_motion-suspended-travel: 25%;
+  --osui_easing-bounce: cubic-bezier(0.18,0.67,0.6,1.22);
+  --osui_breakpoint-phablet: 41.6875rem;
+  --osui_breakpoint-tablet: 53.75rem;
+  --osui_breakpoint-desktop: 67.5rem;
+  --osui_breakpoint-widescreen: 100.875rem;
+  --osui_color-panel-bg: var(--p-surface);
+  --osui_color-frame-bg: var(--p-background);
+  --osui_color-frame-surface-bg: var(--p-surface);
+  --osui_color-plain-action-bg-active-light: var(--p-surface-selected);
+  --osui_color-plain-action-bg-active-base: var(--p-surface-selected-hovered);
+  --osui_color-plain-action-bg-active-dark: var(--p-surface-selected-pressed);
+  --osui_color-plain-button-bg: var(--p-surface-neutral);
+  --osui_color-plain-button-bg-active: rgba(33,43,54,0.08);
+  --osui_size-common-spacing: 1rem;
+  --osui_size-min-action-mobile: 2.75rem;
+  --osui_size-resource-thumbnail: 2.5rem;
+  --osui_height-frame-footer: 3.75rem;
+  --osui_height-frame-header: 3.5rem;
+  --osui_height-nav-action: 2.25rem;
+  --osui_width-sidebar-desktop: 18.75rem;
+  --osui_width-sidebar-interior-desktop: 16.75rem;
+  --osui_width-sidebar-interior-card-desktop: 14.75rem;
+  --osui_width-topbar-sidebar-desktop: 17.75rem;
+  --osui_radius-sidebar-children: 0.25rem
+} */
