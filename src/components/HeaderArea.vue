@@ -2,12 +2,14 @@
     <q-toolbar class="top-bar shadow-2">
         <div class="row flex-center">
             <q-btn flat dense>
-                <q-icon name="output" class="rotate-180 q-pl-sm" />
+                <q-icon>
+                    <IconOut />
+                </q-icon>
                 <span>退出</span>
             </q-btn>
         </div>
-        <div class="col-grow row justify-center q-pr-sm q-pl-sm">
-            <q-btn outline color="black" align="between" label="主页" icon-right="arrow_drop_down" style="width: 21.5625rem" >
+        <div class="col-grow row justify-center flex-center q-pr-sm q-pl-sm">
+            <q-btn class="select-template-btn" outline align="between" label="主页" icon-right="arrow_drop_down" >
                 <q-menu fit class="page-template-menu" :offset="[0, 5]">
                     <q-list style="min-width: 100px">
                         <q-item>
@@ -26,10 +28,10 @@
         </div>
         <div class="row flex-center top-bar-right">
             <q-btn flat desne size="md" class="screen-toggle-btn">
-                <q-icon v-if="currentScreen"><component :is="currentScreen.svg"></component></q-icon>
+                <q-icon v-if="screens[currentScreen]"><component :is="screens[currentScreen].svg" ></component></q-icon>
                 <q-menu fit class="screen-menu" :offset="[0, 5]"  persistent auto-close>
                     <q-list style="min-width: 100px">
-                        <q-item clickable v-for="screen in screens" @click="onSwitchSceen(screen)" :class="['items-center', currentScreen?.value==screen.value?'active':'']">
+                        <q-item clickable v-for="(screen,key) in screens" @click="onSwitchSceen(key)" :class="['items-center', currentScreen==key?'active':'']">
                             <button>
                                 <q-icon><component :is="screen.svg"></component></q-icon>
                                 <span class="block">{{ screen.label }}</span>
@@ -66,6 +68,7 @@
     import IconShort from './icons/screen/IconShort.vue'
     import IconFull from './icons/screen/IconFull.vue'
 
+    import IconOut from './icons/IconOut.vue'
     import IconUndo from './icons/IconUndo.vue'
     import IconRedo from './icons/IconRedo.vue'
 
@@ -98,29 +101,15 @@
         { label:'全屏', value: 'full', svg: IconFull },
     ]
 
-    const currentScreen = ref<ScreenType>();
-    currentScreen.value = screens[0];
+    const currentScreen = ref<number>(0);
 
-    const onSwitchSceen = (screen:ScreenType)=>{
-        currentScreen.value = screen
+    const onSwitchSceen = (key:number)=>{
+        currentScreen.value = key
     } 
 
 </script>
  
 <style lang="scss">
-    .screen-toggle-btn{
-        min-width: 2.25rem!important;
-        min-height: 2.25rem!important;
-        padding:0!important;
-
-        i{
-            width: 1.25rem;
-            height: 1.25rem;
-        }
-    }
-    .q-item.active{
-        position:relative;
-    }
 
     .page-template-menu .q-item,.screen-menu .q-item{
         padding: 0.5rem 1rem;
@@ -130,17 +119,6 @@
         transition-property: color,background-color;
         transition-duration: .2s;
         transition-timing-function: ease;
-    }
-    .page-template-menu .q-item__section--avatar, .screen-menu .q-item button i{
-        height: 1.25rem;
-        width: 1.25rem;
-        margin-right: 0.5rem;
-        padding-right: 0;
-        min-width: auto;
-    }
-    .page-template-menu svg, .screen-menu .q-item button  svg{
-        width: 100%;
-        height: 100%;
     }
 
     .screen-menu .q-list{
@@ -207,10 +185,18 @@
     }
 
     .top-bar{
+
+        position: relative;
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
         height: 3.5rem;
-        >*{
-            height: 3.5rem;
-        }
+        background-color: rgba(255, 255, 255, 1)!important;
+        border: 0;
+        box-shadow: 0 2px 1px rgb(0 0 0 / 5%), 0 0 1px rgb(66 71 76 / 45%)!important;
+    
+
+ 
         .q-separator--vertical{
             width: 0.0625rem;
             background-color: #c4cdd5;
@@ -218,6 +204,38 @@
         }
         .top-bar-right > * + *{
             margin-left: 0.5rem;
+        }
+
+        .select-template-btn{
+            width: 21.5625rem; 
+            height: 2.25rem;
+            color: #202223;
+            
+            &.q-btn--outline:before{
+                color: #c9cccf;
+            }
+            
+        }
+        .screen-toggle-btn{
+            min-width: 2.25rem!important;
+            min-height: 2.25rem!important;
+            padding:0!important;
+
+            i{
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+        .q-item.active{
+            position:relative;
+        }
+
+        button i{
+            height: 1.25rem;
+            width: 1.25rem;
+            margin-right: 0.5rem;
+            padding-right: 0;
+            min-width: auto;
         }
     }
     

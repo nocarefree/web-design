@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.13.6",
+    "@shopify/draggable": "^1.0.0-beta.8",
     "pinia": "^2.0.13",
     "quasar": "^2.6.6",
     "vue": "^3.2.33",
