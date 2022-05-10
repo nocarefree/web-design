@@ -1,5 +1,5 @@
 <template>
-    <li v-if="!dragging" class="nav-item">
+    <li class="nav-item">
         <div :class="['interior', selected?'selected':''] ">
             <div v-if="blocks" :class="['disclosure',expanded?'expanded':'']">
                 <button type="button" class="disclosure-action" @click="expanded = !expanded">
@@ -12,7 +12,7 @@
                 </button>
             </div>
             <div class="trailing-content" v-if="draggable">
-                <button type="button" draggable="true"  @dragstart.native="onDrag" class="drag-handle" aria-pressed="true">
+                <button type="button" class="drag-handle" aria-pressed="true">
                     <i><svg viewBox="0 0 20 20"><path d="M7 2a2 2 0 1 0 .001 4.001 2 2 0 0 0-.001-4.001zm0 6a2 2 0 1 0 .001 4.001 2 2 0 0 0-.001-4.001zm0 6a2 2 0 1 0 .001 4.001 2 2 0 0 0-.001-4.001zm6-8a2 2 0 1 0-.001-4.001 2 2 0 0 0 .001 4.001zm0 2a2 2 0 1 0 .001 4.001 2 2 0 0 0-.001-4.001zm0 6a2 2 0 1 0 .001 4.001 2 2 0 0 0-.001-4.001z"></path></svg>
                     </i>
                 </button>
@@ -22,7 +22,7 @@
             <SortList :items="blocks" draggable />
         </div>
     </li>
-    <li v-else class="nav-item-ghost" style="transition: transform 150ms ease 0s; transform: translate3d(0px, 0px, 0px);"></li>
+    <!-- <li class="nav-item-ghost" style="transition: transform 150ms ease 0s; transform: translate3d(0px, 0px, 0px);"></li> -->
 </template>
 
 <script setup lang="ts">
@@ -43,7 +43,7 @@ const dragging = ref(false);
 const expanded = ref(false);
 const selected = ref(false);
 
-const onItemSelected = inject<Function>('onItemSelected')
+const onItemSelected = inject<Function>('onItemSelected',()=>{})
 
 const onSelected = ()=>{
     onItemSelected((status : boolean)=>{
@@ -53,10 +53,6 @@ const onSelected = ()=>{
 
 
 
-const onDrag = ()=>{
-    console.log(123);
-    dragging.value = true;
-}
 
 
 </script>

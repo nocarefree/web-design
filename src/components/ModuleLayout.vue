@@ -9,7 +9,7 @@
                     <div style="padding-top: 0.25rem;width: 100%;">
                         <SortList :items="[props.layout.top]" />
                         <SortList :items="props.layout.items" draggable />
-                        <SortList :items="[props.layout.bottom]" draggable />
+                        <SortList :items="[props.layout.bottom]" />
                     </div>
                 </div>
                 <div class="layout bottom-layout">
@@ -28,7 +28,6 @@
 <script setup lang="ts">
 
 import { ref, onMounted , provide, reactive } from 'vue'
-import { Sortable,Plugins } from '@shopify/draggable'
 
 import Item from "./module-layout/Item.vue"
 import SortList from "./module-layout/SortList.vue"
@@ -43,7 +42,7 @@ const props = defineProps({
 })
 
 
-const onItemSelected = (item: Function)=>{
+const onItemSelected:Function = (item: Function)=>{
     selectedItem.value? selectedItem.value(false) :'';
     selectedItem.value = item
     selectedItem.value(true)
