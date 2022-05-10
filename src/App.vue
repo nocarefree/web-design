@@ -6,19 +6,28 @@ import HeaderArea from './components/HeaderArea.vue'
 import ModuleLayout from './components/ModuleLayout.vue'
 import ModuleEditor from './components/ModuleEditor.vue'
 
-interface Item{
+interface Block{
+    id: String | Number,
+	type: String,
+	json ?: any,
+	label ?: String,
+}
+
+interface Module extends Block{
     id: String | Number,
     label: String,
+	type: String,
     svg ?: String,
+	blocks ?: Array<Block>,
 }
 
 interface PageLayout{
     id: String | Number,
 	label: String,
-    common: Item,
-    top: Item,
-    bottom: Item,
-    items: Array<Item>,
+    common: Module,
+    top: Module,
+    bottom: Module,
+    items: Array<Module>,
 }
 
 
@@ -29,17 +38,41 @@ layout.value = {
 	label: '主页',
 	common:{
 		id: 'common',
+		type: 'common',
 		label: '模板设置',
 	},
 	top:{
 		id: 'top',
+		type: 'top',
 		label: '标头',
 	},
 	bottom:{
 		id: 'bottom',
+		type: 'bottom',
 		label: '页脚',
 	},
-	items:[],
+	items:[
+		{
+			id: 'image-bar',
+			label: '图库',
+			type: 'image-bar',
+			blocks:[
+				{ id:'image-0', type: 'image', label:'图片'},
+				{ id:'image-2', type: 'image', label:'图片'},
+				{ id:'image-3', type: 'image', label:'图片'},
+			],
+		},
+		{
+			id: 'feature-row',
+			type: "feature-row",
+			label: '带文字图片',
+			blocks:[
+				{ id:'image-0', type: 'image', label:'添加标题或标语'},
+				{ id:'image-2', type: 'image', label:'添加标题或标语'},
+				{ id:'image-3', type: 'image', label:'添加标题或标语'},
+			],
+		},
+	],
 }
 
 
