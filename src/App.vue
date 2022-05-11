@@ -148,11 +148,6 @@ h1,h2,h3,h4,h5,h6,p {
 }
 
 
-i svg{
-	width: 100%;
-	height: 100%;
-}
-
 .iframe{
 	min-width: 0;
     max-width: 100%;
@@ -214,7 +209,70 @@ i svg{
 
 		}
 	}
+
 	
+	
+
 }
+
+i.q-icon svg{
+	width: 100%;
+	height: 100%;
+}
+
+.plain-action {
+	--osui_plain-action-content-padding-x: 0.5rem;
+	-webkit-appearance: none;
+	appearance: none;
+	margin: 0;
+	padding: 0;
+	background: none;
+	border: none;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
+	cursor: pointer;
+	font-size: .9375rem;
+	font-weight: var(--p-font-weight-medium);
+	line-height: 1rem;
+	text-transform: none;
+	letter-spacing: normal;
+	min-width: 0;
+	min-width: 2.25rem;
+	max-width: 100%;
+	min-height: 2.25rem;
+	border-radius: var(--p-border-radius-1);
+	line-height: 1;
+	text-decoration: none;
+	color: var(--p-text);
+	transition-property: color,background-color;
+	transition-duration: var(--p-duration-150);
+	transition-timing-function: var(--p-ease);
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	outline: none;
+	position: relative;
+}
+@media (min-width: 40em){
+	.plain-action {
+		font-size: .875rem;
+	}
+}
+.slim{
+	min-width: 1.75rem;
+    min-height: 1.75rem;
+}
+
+.q-btn i.q-icon {
+	display: block;
+	height: 1.25rem;
+	width: 1.25rem;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.q-btn i.prefix {
+	margin-right: 0.5rem;
+}
+
 
 </style>

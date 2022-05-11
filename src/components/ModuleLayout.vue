@@ -21,7 +21,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -191,7 +190,6 @@ provide('onItemSelected', onItemSelected);
                         letter-spacing: normal;
                         min-width: 0;
                         display: inline-flex;
-                        align-items: center;
                         justify-content: center;
                         min-width: 2.25rem;
                         max-width: 100%;
@@ -236,6 +234,12 @@ provide('onItemSelected', onItemSelected);
                     justify-self: self-end;
                 }
 
+                .drag-action-wrapper, .plain-action-wrapper:not(.hidden){
+                    opacity: 0;
+                    transition: opacity var(--p-duration-100) var(--p-ease);
+                }
+
+                
                 &.selected:before {
                     content: "";
                     background-color: var(--p-interactive);
@@ -252,9 +256,17 @@ provide('onItemSelected', onItemSelected);
                 &.selected .primary-action > button {
                     background-color: var(--p-surface-selected);
                 }
+
+                &:hover{
+                    .drag-action-wrapper, .plain-action-wrapper:not(.hidden){
+                        opacity: 1;
+                    }
+                }
             }
 
-            .drag-handle{
+            
+
+            .drag-action{
                 font-size: .875rem;
                 -webkit-appearance: none;
                 appearance: none;
@@ -296,6 +308,21 @@ provide('onItemSelected', onItemSelected);
                 height: 2.25rem;
                 cursor: grab;
                 touch-action: none;
+
+                &:after{
+                    content: "";
+                    position: absolute;
+                    z-index: 1;
+                    top: -0.0625rem;
+                    right: -0.0625rem;
+                    bottom: -0.0625rem;
+                    left: -0.0625rem;
+                    display: block;
+                    pointer-events: none;
+                    box-shadow: 0 0 0 -0.0625rem var(--p-focused);
+                    transition: box-shadow .1s var(--p-ease);
+                    border-radius: calc(var(--p-border-radius-1) + 0.0625rem);
+                }
 
                 i{
                     display: flex;

@@ -13,14 +13,14 @@
                 <q-menu fit class="page-template-menu" :offset="[0, 5]">
                     <q-list style="min-width: 100px">
                         <q-item>
-                            <q-item-section>模板</q-item-section>
+                            <div class="title">模板</div>
                         </q-item>
                         <q-separator />
-                        <q-item clickable v-for="template in pageTemplates" class="items-center">
-                            <q-item-section avatar>
-                                <component :is="template.svg"></component>
-                            </q-item-section>
-                            <q-item-section>{{ template.label }}</q-item-section>
+                        <q-item v-for="template in pageTemplates">
+                            <q-btn align="left" flat dense class="full-width">
+                                <q-icon class="prefix"><component :is="template.svg"></component></q-icon>
+                                <span>{{ template.label }}</span>
+                            </q-btn>
                         </q-item>
                     </q-list>
                 </q-menu>
@@ -32,10 +32,10 @@
                 <q-menu fit class="screen-menu" :offset="[0, 5]"  persistent auto-close>
                     <q-list style="min-width: 100px">
                         <q-item clickable v-for="(screen,key) in screens" @click="onSwitchSceen(key)" :class="['items-center', currentScreen==key?'active':'']">
-                            <button>
+                            <q-btn flat dense>
                                 <q-icon><component :is="screen.svg"></component></q-icon>
                                 <span class="block">{{ screen.label }}</span>
-                            </button>
+                            </q-btn>
                         </q-item>
                     </q-list>
                 </q-menu>
@@ -111,14 +111,36 @@
  
 <style lang="scss">
 
-    .page-template-menu .q-item,.screen-menu .q-item{
-        padding: 0.5rem 1rem;
-        width: 100%;
-        min-height: 2.75rem;
-        text-align: left;
-        transition-property: color,background-color;
-        transition-duration: .2s;
-        transition-timing-function: ease;
+    .page-template-menu .q-item{
+        padding:0;
+
+        .title{
+            display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    width: 100%;
+        }
+        .q-btn{
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+            padding: 0;
+            background: none;
+            border: none;
+            font-size: inherit;
+            line-height: inherit;
+            color: inherit;
+            cursor: pointer;
+            outline: none;
+            position: relative;
+            display: flex;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            min-height: 2.75rem;
+            text-align: left;
+
+        }
     }
 
     .screen-menu .q-list{
@@ -195,6 +217,9 @@
         border: 0;
         box-shadow: 0 2px 1px rgb(0 0 0 / 5%), 0 0 1px rgb(66 71 76 / 45%)!important;
     
+        > *{
+            height: 100%;
+        }
 
  
         .q-separator--vertical{
@@ -220,23 +245,12 @@
             min-width: 2.25rem!important;
             min-height: 2.25rem!important;
             padding:0!important;
-
-            i{
-                width: 1.25rem;
-                height: 1.25rem;
-            }
         }
+
         .q-item.active{
             position:relative;
         }
 
-        button i{
-            height: 1.25rem;
-            width: 1.25rem;
-            margin-right: 0.5rem;
-            padding-right: 0;
-            min-width: auto;
-        }
     }
     
     
