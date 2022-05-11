@@ -83,9 +83,8 @@ layout.value = {
 		<header class="header"><HeaderArea /></header>
 		<aside class="sidebar"><ModuleLayout v-if="layout" :layout="layout" /></aside>
 		<div class="sidebar secondary"><ModuleEditor /></div>
-		<main class="main">
-
-		</main>
+		<main class="main"></main>
+		<div id="pro"></div>
 	</div>	
 </template>
 

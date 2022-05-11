@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Item from './Item.vue'
-import { Draggable, Plugins } from '@shopify/draggable'
+import { Sortable, Plugins } from '@shopify/draggable'
 
 interface Block {
     id: String | Number,
@@ -46,25 +46,28 @@ const props = defineProps(
 onMounted(() => {
     if (typeof (props.draggable) != undefined) {
 
-        const draggable = new Draggable(draggerRef.value, {
+        const draggable = new Sortable(draggerRef.value, {
             draggable: 'li',
             handle: '.drag-action',
             mirror: {
                 constrainDimensions: true,
                 xAxis: false,
+                appendTo: '#pro'
             }
         });
 
         draggable.on('mirror:created',(data: any)=>{
-            let {sourceContainer, source} = data;
-            let li = document.createElement("li");
-            li.className = 'ghost'; 
-            li.style;
-            sourceContainer.replaceChild(li ,source)
-            console.log(data)
+            setTimeout(()=>{
+                let {source} = data;
+                source.className = 'nav-item-ghost'; 
+                source.style.transform = 'translate3d(0px, 0px, 0px)'; 
+                source.style.transition = 'transform 150ms ease 0s';
+                source.innerHTML = "";
+            },50)
+            
         })
         draggable.on('drag:move',function(){
-
+            console.log(arguments)
         })
 
     }
@@ -84,8 +87,10 @@ onMounted(() => {
     }
 }
 
+
 .draggable-mirror{
     z-index: 999;
+    list-style: none;
 
     button{
         pointer-events: none!important;
