@@ -1,6 +1,10 @@
 <template>
-    <ol class="sort-list" ref="draggerRef">
-        <Item :id="props.parentId?`${props.parentId}/${item.id}`:item.id" v-for="item in props.items" v-bind="item" :draggable="props.draggable"></Item>
+    <ol class="sort-list" ref="draggerWrapperRef">
+        <Item 
+            v-for="item in props.items"  
+            :id="props.parentId?`${props.parentId}/${item.id}`:item.id"
+            v-bind="item" 
+            :draggable="props.draggable" />
     </ol>
 </template>                        
 
@@ -16,7 +20,7 @@ interface Block {
     label?: String,
 }
 
-const draggerRef = ref(null)
+const draggerWrapperRef = ref(null)
 
 const props = defineProps(
     ['items', 'draggable','parentId'],
@@ -48,7 +52,7 @@ const props = defineProps(
 onMounted(() => {
     if (typeof (props.draggable) != undefined) {
 
-        const draggable = new Sortable(draggerRef.value, {
+        const draggable = new Draggable(draggerWrapperRef.value, {
             draggable: 'li',
             handle: '.drag-action',
             mirror: {
@@ -59,50 +63,60 @@ onMounted(() => {
         });
 
         let startPoint:number = 0;
-        let stepHeight = 0;
+        let stepHeight:number = 0;
+        let stepNum:number = 0;
+        let childrenNum:number = 0;
+        let startIndex:number = 0;
 
 
         function siblings(element: any){
             return Array.prototype.filter.call(element.parentNode.children,(e: any)=>{
-                return e.style.display != 'none';
+                return e.style.display != 'none' && e.id;
             })
         }
 
+        draggable.on('mirror:create',function(event: any){
+            let {source, sensorEvent} = event, nodes = siblings(source);
+
+            startPoint = sensorEvent.clientY;
+            stepNum = 0;
+            childrenNum = nodes.length;
+            startIndex = Array.prototype.indexOf.call(nodes, source);
+        })
 
         draggable.on('mirror:created',(data: any)=>{
             setTimeout(()=>{
-                let {source, sourceContainer, sensorEvent} = data;
+                let {source, sensorEvent} = data;
                 source.className = 'nav-item-ghost'; 
                 source.style.transform = 'translate3d(0px, 0px, 0px)'; 
                 source.style.transition = 'transform 150ms ease 0s';
                 source.innerHTML = "";
 
-                startPoint = sensorEvent.clentY;
                 stepHeight = source.offsetHeight;
 
-                siblings(source).forEach((node: any, index:number)=>{
+                let nodes = siblings(source);
 
-                    if(node && node.id){
-                        node.style.transform = 'translate3d(0px, 0px, 0px)'; 
-                        node.style.transition = 'transform 150ms ease 0s';
-                    }
-                    
+                nodes.forEach((node: any, index:number)=>{
+                    node.style.transform = 'translate3d(0px, 0px, 0px)'; 
+                    node.style.transition = 'transform 150ms ease 0s';
                 })
             })
         })
 
+        
+
         draggable.on('drag:out',function(event: any){
-            console.log('drag:out')
+            // console.log('drag:out')
             event.cancel()
         })
 
         draggable.on('drag:out:container',function(event: any){
-            console.log('drag:out:container')
+            // console.log('drag:out:container')
             event.cancel()
         })
 
         draggable.on('drag:over:container',function(event: any){
-            console.log('drag:over:container')
+            // console.log('drag:over:container')
             event.cancel()
         })
 
@@ -116,54 +130,33 @@ onMounted(() => {
 
         
         draggable.on('drag:move',function(event: any){
-            let moveY = event.sensorEvent.clientX - startPoint;
+            const { source, sensorEvent } = event;
 
-            let moveIndex = Math.ceil(moveY / stepHeight * 0.8);
+            let moveY = sensorEvent.clientY - startPoint;
 
-            nodes.forEach((node: any, index: number)=>{
-                // 1 2 3 4 5 6 7 8  4->2 , 4->6
-         
-                if(moveIndex <0 && index>= oIndex && index<sIndex ){
-                    node.style.transform = 'translate3d(0px, '+ h +'px, 0px)'; 
-                }else if(step > 0 && index<=oIndex  && index>sIndex ) {
-                    node.style.transform = 'translate3d(0px, '+ (-1*h) +'px, 0px)'; 
-                }
-                source.style.transform = 'translate3d(0px, '+ (h*step) +'px, 0px)'; 
-            }) 
+            let _stepNum = Math.round(moveY / stepHeight), toIndex =_stepNum+startIndex ;
+
+
+            if(_stepNum != stepNum && toIndex<childrenNum && toIndex>=0){
+                stepNum = _stepNum;
+
+                siblings(source).forEach((node: any, index: number)=>{
+                    if(stepNum < 0 && index>= toIndex && index<startIndex ){
+                        node.style.transform = 'translate3d(0px, '+ stepHeight +'px, 0px)'; 
+                    }else if(stepNum > 0 && index<=toIndex  && index>startIndex ) {
+                        node.style.transform = 'translate3d(0px, '+ (-1* stepHeight) +'px, 0px)'; 
+                    }else{
+                        node.style.transform = 'translate3d(0px, 0px, 0px)'; 
+                    }
+                    source.style.transform = 'translate3d(0px, '+ (stepHeight*stepNum) +'px, 0px)'; 
+                }) 
+            }
+
+            
 
             return false;
-            const { source, over, overContainer,originalSource, sourceContainer } = event;
             
 
-            if (over === originalSource || over === source || overContainer != sourceContainer) {
-                 return;
-            }
-
-            let _sIndex = index(source.id), 
-                oIndex = index(over.id), 
-                h = parseInt(source.offsetHeight),
-                nodes = siblings(source),
-                _oIndex = _sortIds.findIndex(i=>i == over.id),
-                sIndex = _sortIds.findIndex(i=>i == source.id),
-                step = oIndex - sIndex; 
-
-            if(sIndex == -1 || oIndex == -1){
-                return;
-            }
-
-            nodes.forEach((node: any, index: number)=>{
-                // 1 2 3 4 5 6 7 8  4->2 , 4->6
-         
-                if(step <0 && index>= oIndex && index<sIndex ){
-                    node.style.transform = 'translate3d(0px, '+ h +'px, 0px)'; 
-                }else if(step > 0 && index<=oIndex  && index>sIndex ) {
-                    node.style.transform = 'translate3d(0px, '+ (-1*h) +'px, 0px)'; 
-                }
-                source.style.transform = 'translate3d(0px, '+ (h*step) +'px, 0px)'; 
-            })     
-            
-            sortIds.splice(source.id, 1);
-            sortIds.splice(oIndex, 0, source.id);
 
             
         })
@@ -190,11 +183,21 @@ onMounted(() => {
     z-index: 999;
     list-style: none;
     touch-action: none;
-    cursor: grabbing;
-    padding:0;
+    cursor: grabbing!important;
+    padding: 0!important;
     margin:0;
 
+    .collapsible{
+        display: none!important;
+    }
+
+    .disclosure >button i {
+        transform: rotate(-90deg)!important;
+    }
+
     button{
+        
+
         pointer-events: none!important;
         touch-action: none!important;
         -webkit-user-select: none!important;

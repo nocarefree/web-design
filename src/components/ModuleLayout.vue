@@ -91,8 +91,6 @@ provide('onItemSelected', onItemSelected);
         display: flex;
         flex-direction: column;
         flex: 0 0 auto;
-
-        
     }
 
     .top-layout{
@@ -152,12 +150,12 @@ provide('onItemSelected', onItemSelected);
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 
+    .nav-item-ghost{
+        padding:0!important;
+    }
+
     .nav-item{
         padding:0;
-
-        &.nav-item-ghost{
-            padding:0!important;
-        }
     }
 
     .interior{

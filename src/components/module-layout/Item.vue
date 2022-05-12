@@ -48,6 +48,15 @@ const selected = ref(false);
 
 const onItemSelected = inject<Function>('onItemSelected',()=>{})
 
+const onExpanded = (status : boolean)=>{
+    expanded.value = status
+}
+const onDragging = ()=>{
+    expanded.value = false
+}
+
+defineExpose({onDragging})
+
 const onSelected = ()=>{
     onItemSelected((status : boolean)=>{
         selected.value = status;
