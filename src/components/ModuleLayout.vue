@@ -154,6 +154,10 @@ provide('onItemSelected', onItemSelected);
 
     .nav-item{
         padding:0;
+
+        &.nav-item-ghost{
+            padding:0!important;
+        }
     }
 
     .interior{
@@ -272,7 +276,10 @@ provide('onItemSelected', onItemSelected);
 
                 &:hover{
                     color: var(--p-icon-hovered);
-                    background-color: var(--p-surface-hovered);
+                    background-color: var(--p-surface-hovered)!important;
+                    .q-focus-helper{
+                        opacity: 0;
+                    }
                 }
             }
         }

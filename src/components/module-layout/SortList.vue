@@ -1,13 +1,13 @@
 <template>
     <ol class="sort-list" ref="draggerRef">
-        <Item v-for="item in props.items" v-bind="item" :draggable="props.draggable"></Item>
+        <Item :id="props.parentId?`${props.parentId}/${item.id}`:item.id" v-for="item in props.items" v-bind="item" :draggable="props.draggable"></Item>
     </ol>
 </template>                        
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Item from './Item.vue'
-import { Sortable, Plugins } from '@shopify/draggable'
+import { Draggable,Sortable, Plugins } from '@shopify/draggable'
 
 interface Block {
     id: String | Number,
@@ -19,7 +19,7 @@ interface Block {
 const draggerRef = ref(null)
 
 const props = defineProps(
-    ['items', 'draggable'],
+    ['items', 'draggable','parentId'],
 )
 
 // const onDragStart = Symbol('onDragStart');
@@ -43,6 +43,8 @@ const props = defineProps(
 //     }
 // }
 
+
+
 onMounted(() => {
     if (typeof (props.draggable) != undefined) {
 
@@ -53,21 +55,117 @@ onMounted(() => {
                 constrainDimensions: true,
                 xAxis: false,
                 appendTo: '#pro'
-            }
+            },
         });
+
+        let startPoint:number = 0;
+        let stepHeight = 0;
+
+
+        function siblings(element: any){
+            return Array.prototype.filter.call(element.parentNode.children,(e: any)=>{
+                return e.style.display != 'none';
+            })
+        }
+
 
         draggable.on('mirror:created',(data: any)=>{
             setTimeout(()=>{
-                let {source} = data;
+                let {source, sourceContainer, sensorEvent} = data;
                 source.className = 'nav-item-ghost'; 
                 source.style.transform = 'translate3d(0px, 0px, 0px)'; 
                 source.style.transition = 'transform 150ms ease 0s';
                 source.innerHTML = "";
-            },50)
-            
+
+                startPoint = sensorEvent.clentY;
+                stepHeight = source.offsetHeight;
+
+                siblings(source).forEach((node: any, index:number)=>{
+
+                    if(node && node.id){
+                        node.style.transform = 'translate3d(0px, 0px, 0px)'; 
+                        node.style.transition = 'transform 150ms ease 0s';
+                    }
+                    
+                })
+            })
         })
-        draggable.on('drag:move',function(){
-            console.log(arguments)
+
+        draggable.on('drag:out',function(event: any){
+            console.log('drag:out')
+            event.cancel()
+        })
+
+        draggable.on('drag:out:container',function(event: any){
+            console.log('drag:out:container')
+            event.cancel()
+        })
+
+        draggable.on('drag:over:container',function(event: any){
+            console.log('drag:over:container')
+            event.cancel()
+        })
+
+        draggable.on('drag:stop',function(event: any){
+            let {sourceContainer} = event;
+            sourceContainer.querySelectorAll('.nav-item').forEach((node: any, index: number)=>{
+                node.style.transform = null; 
+                node.style.transition = null;
+            })
+        })
+
+        
+        draggable.on('drag:move',function(event: any){
+            let moveY = event.sensorEvent.clientX - startPoint;
+
+            let moveIndex = Math.ceil(moveY / stepHeight * 0.8);
+
+            nodes.forEach((node: any, index: number)=>{
+                // 1 2 3 4 5 6 7 8  4->2 , 4->6
+         
+                if(moveIndex <0 && index>= oIndex && index<sIndex ){
+                    node.style.transform = 'translate3d(0px, '+ h +'px, 0px)'; 
+                }else if(step > 0 && index<=oIndex  && index>sIndex ) {
+                    node.style.transform = 'translate3d(0px, '+ (-1*h) +'px, 0px)'; 
+                }
+                source.style.transform = 'translate3d(0px, '+ (h*step) +'px, 0px)'; 
+            }) 
+
+            return false;
+            const { source, over, overContainer,originalSource, sourceContainer } = event;
+            
+
+            if (over === originalSource || over === source || overContainer != sourceContainer) {
+                 return;
+            }
+
+            let _sIndex = index(source.id), 
+                oIndex = index(over.id), 
+                h = parseInt(source.offsetHeight),
+                nodes = siblings(source),
+                _oIndex = _sortIds.findIndex(i=>i == over.id),
+                sIndex = _sortIds.findIndex(i=>i == source.id),
+                step = oIndex - sIndex; 
+
+            if(sIndex == -1 || oIndex == -1){
+                return;
+            }
+
+            nodes.forEach((node: any, index: number)=>{
+                // 1 2 3 4 5 6 7 8  4->2 , 4->6
+         
+                if(step <0 && index>= oIndex && index<sIndex ){
+                    node.style.transform = 'translate3d(0px, '+ h +'px, 0px)'; 
+                }else if(step > 0 && index<=oIndex  && index>sIndex ) {
+                    node.style.transform = 'translate3d(0px, '+ (-1*h) +'px, 0px)'; 
+                }
+                source.style.transform = 'translate3d(0px, '+ (h*step) +'px, 0px)'; 
+            })     
+            
+            sortIds.splice(source.id, 1);
+            sortIds.splice(oIndex, 0, source.id);
+
+            
         })
 
     }
@@ -91,6 +189,10 @@ onMounted(() => {
 .draggable-mirror{
     z-index: 999;
     list-style: none;
+    touch-action: none;
+    cursor: grabbing;
+    padding:0;
+    margin:0;
 
     button{
         pointer-events: none!important;

@@ -1,5 +1,5 @@
 <template>
-    <li class="nav-item">
+    <li class="nav-item" :id="props.id">
         <div :class="['interior', selected?'selected':''] ">
             <div v-if="blocks" :class="['disclosure',expanded?'expanded':'']">
                 <q-btn flat dense class="disclosure-action" @click="expanded = !expanded">
@@ -23,10 +23,9 @@
             </div>
         </div>
         <div v-if="blocks" class="collapsible" v-show="expanded">
-            <SortList :items="blocks" draggable />
+            <SortList :items="blocks" draggable :parent-id="props.id" />
         </div>
     </li>
-    <!-- <li class="nav-item-ghost" style="transition: transform 150ms ease 0s; transform: translate3d(0px, 0px, 0px);"></li> -->
 </template>
 
 <script setup lang="ts">
@@ -35,7 +34,7 @@ import { ref, watch, inject } from 'vue'
 import SortList from './SortList.vue'
 
 const props = defineProps({
-    id: { type: [String, Number], required: true },
+    id: { type: String, required: true },
     label: { type: String, required: true },
     svg: String,
     blocks: { type: Array },
