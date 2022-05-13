@@ -8,8 +8,8 @@
                     </div>
                     <div style="padding-top: 0.25rem;width: 100%;">
                         <SortList :items="[props.layout.top]" />
-                        <SortList :items="props.layout.items" draggable />
-                        <SortList :items="[props.layout.bottom]" />
+                        <SortList :items="props.layout.items" draggable addable name="module" />
+                        <SortList :items="[props.layout.bottom]" addable name="footer" />
                     </div>
                 </div>
                 <div class="layout bottom-layout">

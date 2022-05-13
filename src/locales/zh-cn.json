@@ -1,0 +1,9 @@
+{
+    "world": "the world!",
+    "button": {
+        "module-add": "添加分区",
+        "footer-add": "添加块",
+        "image-add": "添加图片"
+    }
+}
+  

@@ -8,7 +8,7 @@ import ModuleEditor from './components/ModuleEditor.vue'
 
 interface Block{
     id: String | Number,
-	type: String,
+	name: String,
 	json ?: any,
 	label ?: String,
 }
@@ -16,7 +16,7 @@ interface Block{
 interface Module extends Block{
     id: String | Number,
     label: String,
-	type: String,
+	name: String,
     svg ?: String,
 	blocks ?: Array<Block>,
 }
@@ -38,38 +38,38 @@ layout.value = {
 	label: '主页',
 	common:{
 		id: 'common',
-		type: 'common',
+		name: 'common',
 		label: '模板设置',
 	},
 	top:{
 		id: 'top',
-		type: 'top',
+		name: 'top',
 		label: '标头',
 	},
 	bottom:{
 		id: 'bottom',
-		type: 'bottom',
+		name: 'bottom',
 		label: '页脚',
 	},
 	items:[
 		{
 			id: 'image-bar',
 			label: '图库',
-			type: 'image-bar',
+			name: 'image-bar',
 			blocks:[
-				{ id:'image-0', type: 'image', label:'图片'},
-				{ id:'image-2', type: 'image', label:'图片'},
-				{ id:'image-3', type: 'image', label:'图片'},
+				{ id:'image-0', name: 'image', label:'图片'},
+				{ id:'image-2', name: 'image', label:'图片'},
+				{ id:'image-3', name: 'image', label:'图片'},
 			],
 		},
 		{
 			id: 'feature-row',
-			type: "feature-row",
+			name: "feature-row",
 			label: '带文字图片',
 			blocks:[
-				{ id:'image-0', type: 'image', label:'添加标题或标语'},
-				{ id:'image-2', type: 'image', label:'添加标题或标语'},
-				{ id:'image-3', type: 'image', label:'添加标题或标语'},
+				{ id:'image-0', name: 'image', label:'添加标题或标语'},
+				{ id:'image-2', name: 'image', label:'添加标题或标语'},
+				{ id:'image-3', name: 'image', label:'添加标题或标语'},
 			],
 		},
 	],
@@ -83,7 +83,7 @@ layout.value = {
 		<header class="header"><HeaderArea /></header>
 		<aside class="sidebar"><ModuleLayout v-if="layout" :layout="layout" /></aside>
 		<div class="sidebar secondary"><ModuleEditor /></div>
-		<main class="main"></main>
+		<main class="main">{{ $t('world') }}</main>
 	</div>	
 	<div id="pro"></div>
 </template>

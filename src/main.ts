@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { Quasar } from 'quasar'
 import quasarLang from 'quasar/lang/zh-CN'
+import i18n from './i18n'
+
 // import router from './router'
 import App from './App.vue'
 
@@ -18,6 +20,7 @@ import 'quasar/src/css/index.sass'
 const myApp = createApp(App)
 
 
+myApp.use(i18n)
 myApp.use(createPinia())
 // myApp.use(router)
 

@@ -5,12 +5,17 @@
             :id="props.parentId?`${props.parentId}/${item.id}`:item.id"
             v-bind="item" 
             :draggable="props.draggable" />
+        <ItemAdd 
+            v-if="props.addable !== false" 
+            :name="props.name">
+        </ItemAdd>
     </ol>
 </template>                        
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Item from './Item.vue'
+import ItemAdd from './ItemAdd.vue'
 import { Draggable,Sortable, Plugins } from '@shopify/draggable'
 import { isSet } from '@vue/shared';
 
@@ -23,9 +28,14 @@ interface Block {
 
 const draggerWrapperRef = ref(null)
 
-const props = defineProps(
-    ['items', 'draggable','parentId'],
-)
+const props = defineProps({
+    id: { type: String, required: true },
+    name: { type: String, required: true },
+    items: { type:Array },
+    parentId: { type: String },
+    draggable: { type:Boolean, default:false },
+    addable: { type:Boolean, default:false },
+})
 
 // const onDragStart = Symbol('onDragStart');
 // const onDragMove = Symbol('onDragMove');
@@ -65,7 +75,8 @@ onMounted(() => {
 
         let sorting:boolean = true;
         let sortIds:Array<string>= [];
-        let parentTop :number= 0;
+        let startPrefix:number = 0;
+        let itemSpace:number = 0;
 
 
         function siblings(element: any){
@@ -92,12 +103,15 @@ onMounted(() => {
                 c?c.parentNode.removeChild(c):'';
                 sorting = false;
                 sortIds = [];
-                parentTop = nodes[0].getBoundingClientRect().top;
+
+                let parentTop = source.parentNode.getBoundingClientRect().top;
+                let firstTop = nodes[0].getBoundingClientRect().top;
+                startPrefix = firstTop - parentTop;
+                itemSpace =  nodes[1].offsetTop - nodes[0].offsetTop - nodes[0].offsetHeight;
 
                 nodes.forEach((node: any, index:number)=>{
                     node.style.transform = 'translate3d(0px, 0px, 0px)'; 
                     node.style.transition = 'transform 150ms ease 0s';
-
                     sortIds.push(node);
                 })
             })
@@ -191,12 +205,11 @@ onMounted(() => {
             let startIndex:number = sortIds.findIndex((node:any)=>node == source)
 
             // top = nodes[0].getBoundingClientRect().top;
-            let moveY = mirrorRect.top - parentTop;
+            let moveY = mirrorRect.top - top - startPrefix;
 
             if(startIndex <0){
                 return null;
             }
-
 
             sortIds.some((node: any, index)=>{
                 if( (rangHeight-10)<moveY && moveY < ( rangHeight+15)){
@@ -210,43 +223,12 @@ onMounted(() => {
 
                         return true;
                     }
-
-                    // sortedNode(nodes, startIndex, index)
                     return true;
                 }else{
-                    rangHeight += node.offsetHeight+2;
+                    rangHeight += node.offsetHeight + itemSpace;
                 }
             })
 
-
-
-
-            
-
-
-            // for(let i in nodes){
-            //     let index = parseInt(i)
-            //     let node = nodes[index];
-            //     if(node.id == source.id){
-            //         continue;
-            //     }
-
-            //     if(withInContainer(mirrorRect, node.getBoundingClientRect())){
-
-            //         let toIndex = sortIds.findIndex(i=>i==node.id)
-
-            //         console.log(startIndex, toIndex, sortIds, node.style.transform, node.id ,node.getBoundingClientRect())
-
-            //         return setTimeout(()=>{
-            //             if(sortedNode(nodes, startIndex, toIndex)){
-            //                 sortIds.splice(startIndex,1)
-            //                 sortIds.splice(toIndex, 0 , source.id)
-            //             }
-            //             sorting = false;
-            //         },150)
-            //     }
-            // }
-            
             sorting = false;   
             return false;
             
