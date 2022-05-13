@@ -12,6 +12,7 @@
 import { onMounted, ref } from 'vue';
 import Item from './Item.vue'
 import { Draggable,Sortable, Plugins } from '@shopify/draggable'
+import { isSet } from '@vue/shared';
 
 interface Block {
     id: String | Number,
@@ -54,7 +55,7 @@ onMounted(() => {
 
         const draggable = new Draggable(draggerWrapperRef.value, {
             draggable: 'li',
-            handle: '.drag-action',
+            handle: ' .interior .drag-action',
             mirror: {
                 constrainDimensions: true,
                 xAxis: false,
@@ -62,11 +63,9 @@ onMounted(() => {
             },
         });
 
-        let startPoint:number = 0;
-        let stepHeight:number = 0;
-        let stepNum:number = 0;
-        let childrenNum:number = 0;
-        let startIndex:number = 0;
+        let sorting:boolean = true;
+        let sortIds:Array<string>= [];
+        let parentTop :number= 0;
 
 
         function siblings(element: any){
@@ -75,49 +74,53 @@ onMounted(() => {
             })
         }
 
-        draggable.on('mirror:create',function(event: any){
-            let {source, sensorEvent} = event, nodes = siblings(source);
-
-            startPoint = sensorEvent.clientY;
-            stepNum = 0;
-            childrenNum = nodes.length;
-            startIndex = Array.prototype.indexOf.call(nodes, source);
-        })
-
         draggable.on('mirror:created',(data: any)=>{
-            setTimeout(()=>{
-                let {source, sensorEvent} = data;
+            requestAnimationFrame(()=>{
+                let {source, mirror, sensorEvent} = data,
+                    b = mirror.querySelectorAll('.plain-action-wrapper')[0],
+                    c = mirror.querySelectorAll('.collapsible')[0],
+                    nodes = siblings(source);
+
                 source.className = 'nav-item-ghost'; 
                 source.style.transform = 'translate3d(0px, 0px, 0px)'; 
                 source.style.transition = 'transform 150ms ease 0s';
                 source.innerHTML = "";
 
-                stepHeight = source.offsetHeight;
-
-                let nodes = siblings(source);
+                //修改 mirror
+                mirror.style.pointerEvents = null;
+                b?b.parentNode.removeChild(b):'';
+                c?c.parentNode.removeChild(c):'';
+                sorting = false;
+                sortIds = [];
+                parentTop = nodes[0].getBoundingClientRect().top;
 
                 nodes.forEach((node: any, index:number)=>{
                     node.style.transform = 'translate3d(0px, 0px, 0px)'; 
                     node.style.transition = 'transform 150ms ease 0s';
+
+                    sortIds.push(node);
                 })
             })
         })
 
-        
+        draggable.on('drag:start',function(event: any){
+            // console.log(event);
+        })
+
 
         draggable.on('drag:out',function(event: any){
             // console.log('drag:out')
-            event.cancel()
+            // event.cancel()
         })
 
         draggable.on('drag:out:container',function(event: any){
             // console.log('drag:out:container')
-            event.cancel()
+            // event.cancel()
         })
 
         draggable.on('drag:over:container',function(event: any){
             // console.log('drag:over:container')
-            event.cancel()
+            // event.cancel()
         })
 
         draggable.on('drag:stop',function(event: any){
@@ -128,36 +131,124 @@ onMounted(() => {
             })
         })
 
+
+        function withInContainer(fRect:any, target:any){
+
+            if(fRect.bottom  > (target.top + fRect.height/2 ) && fRect.top < (target.top + fRect.height/2 )  ){
+                return true;
+            }
+            return false;
+        }
+
+        function sortedNode(nodes:Array<any>, form:number, to:number){
+
+            if(form == to && typeof nodes[form] == undefined && nodes[to] == undefined){
+                return false;
+            }
+
+            let stepNum = to - form;
+            let source = nodes[form];
+            let stepHeight = source.offsetHeight
+            let moveHeight = 0;
+
+            console.log('css:',form, to);
+
+            nodes.forEach((node: any, index: number)=>{
+                if(stepNum < 0 && index>= to && index<form ){
+                    moveHeight += -1*node.offsetHeight;
+                    node.style.transform = 'translate3d(0px, '+ stepHeight +'px, 0px)'; 
+                    // startHeight += node.offsetHeight
+                }else if(stepNum > 0 && index<=to  && index>form ) {
+                    // startHeight += node.offsetHeight
+                    moveHeight += node.offsetHeight;
+                    node.style.transform = 'translate3d(0px, '+ (-1* stepHeight) +'px, 0px)'; 
+                }else{
+                    node.style.transform = 'translate3d(0px, 0px, 0px)'; 
+                }
+            }) 
+            source.style.transform = 'translate3d(0px, '+(moveHeight)+'px, 0px)'; 
+            return true;
+        }
         
         draggable.on('drag:move',function(event: any){
-            const { source, sensorEvent } = event;
+            const { source, sensorEvent, sourceContainer } = event;
 
-            let moveY = sensorEvent.clientY - startPoint;
-
-            let _stepNum = Math.round(moveY / stepHeight), toIndex =_stepNum+startIndex ;
-
-
-            if(_stepNum != stepNum && toIndex<childrenNum && toIndex>=0){
-                stepNum = _stepNum;
-
-                siblings(source).forEach((node: any, index: number)=>{
-                    if(stepNum < 0 && index>= toIndex && index<startIndex ){
-                        node.style.transform = 'translate3d(0px, '+ stepHeight +'px, 0px)'; 
-                    }else if(stepNum > 0 && index<=toIndex  && index>startIndex ) {
-                        node.style.transform = 'translate3d(0px, '+ (-1* stepHeight) +'px, 0px)'; 
-                    }else{
-                        node.style.transform = 'translate3d(0px, 0px, 0px)'; 
-                    }
-                    source.style.transform = 'translate3d(0px, '+ (stepHeight*stepNum) +'px, 0px)'; 
-                }) 
+            if(sorting && source.parentNode != sourceContainer){
+                return false;
             }
 
             
 
-            return false;
+            let mirrorRect = sensorEvent.target.getBoundingClientRect();
+            let {top, bottom} = source.parentNode.getBoundingClientRect();   
+            if(mirrorRect.top < top || mirrorRect.bottom > bottom ){
+                return null;
+            }
+            
+            sorting = true;
+            let nodes:Array<any> = siblings(source);
+            let rangHeight = 0;
+            let startIndex:number = sortIds.findIndex((node:any)=>node == source)
+
+            // top = nodes[0].getBoundingClientRect().top;
+            let moveY = mirrorRect.top - parentTop;
+
+            if(startIndex <0){
+                return null;
+            }
+
+
+            sortIds.some((node: any, index)=>{
+                if( (rangHeight-10)<moveY && moveY < ( rangHeight+15)){
+
+                    if(startIndex != index){
+                        sortIds.splice(startIndex,1)
+                        sortIds.splice(index, 0 , source)
+                        
+                        console.log('as:',startIndex,index, sortIds);
+                        sortedNode(nodes, nodes.findIndex(i=>i==source), index);
+
+                        return true;
+                    }
+
+                    // sortedNode(nodes, startIndex, index)
+                    return true;
+                }else{
+                    rangHeight += node.offsetHeight+2;
+                }
+            })
+
+
+
+
             
 
 
+            // for(let i in nodes){
+            //     let index = parseInt(i)
+            //     let node = nodes[index];
+            //     if(node.id == source.id){
+            //         continue;
+            //     }
+
+            //     if(withInContainer(mirrorRect, node.getBoundingClientRect())){
+
+            //         let toIndex = sortIds.findIndex(i=>i==node.id)
+
+            //         console.log(startIndex, toIndex, sortIds, node.style.transform, node.id ,node.getBoundingClientRect())
+
+            //         return setTimeout(()=>{
+            //             if(sortedNode(nodes, startIndex, toIndex)){
+            //                 sortIds.splice(startIndex,1)
+            //                 sortIds.splice(toIndex, 0 , source.id)
+            //             }
+            //             sorting = false;
+            //         },150)
+            //     }
+            // }
+            
+            sorting = false;   
+            return false;
             
         })
 
