@@ -19,7 +19,7 @@
                         <q-item v-for="template in pageTemplates">
                             <q-btn align="left" flat dense class="full-width">
                                 <q-icon class="prefix"><component :is="template.svg"></component></q-icon>
-                                <span>{{ template.label }}</span>
+                                <span>{{ $t(`page-title.${template.value}`) }}</span>
                             </q-btn>
                         </q-item>
                     </q-list>
@@ -73,7 +73,6 @@
     import IconRedo from './icons/IconRedo.vue'
 
     interface PageTemplate {
-        label: string,
         value: string,
         icon?: string,
         svg?: any,
@@ -87,12 +86,12 @@
     }
 
     const pageTemplates : Array<PageTemplate> = [
-        { label:'主页', value: 'home', svg: IconHome },
-        { label:'产品系列', value: 'collection', svg: IconCollection },
-        { label:'产品页', value: 'product', svg: IconProduct },
-        { label:'购物车', value: 'cart', svg: IconCart },
-        { label:'结账', value: 'checkout', svg: IconCart },
-        { label:'文章', value: 'article',svg: IconArticle },
+        { value: 'home', svg: IconHome },
+        { value: 'collection', svg: IconCollection },
+        { value: 'product', svg: IconProduct },
+        { value: 'cart', svg: IconCart },
+        { value: 'checkout', svg: IconCart },
+        { value: 'article',svg: IconArticle },
     ]
 
     const screens : Array<ScreenType> = [

@@ -7,15 +7,19 @@
                         <h1>{{ layout.label }}</h1>
                     </div>
                     <div style="padding-top: 0.25rem;width: 100%;">
-                        <SortList :items="[props.layout.top]" />
-                        <SortList :items="props.layout.items" draggable addable name="module" />
-                        <SortList :items="[props.layout.bottom]" addable name="footer" />
+                        <ol class="sort-list">
+                            <Item v-bind="props.layout.template" name="header" id="header" />
+                        </ol>
+                        <SortList v-bind="props.layout.page" />
+                        <ol class="sort-list">
+                            <Item v-bind="props.layout.footer" name="footer" id="footer" />
+                        </ol>
                     </div>
                 </div>
                 <div class="layout bottom-layout">
                     <div class="_ChildrenWrapper_b0jpb_1587">
                         <ul>
-                            <Item v-bind="props.layout.common" />
+                            <Item v-bind="props.layout.template" />
                         </ul>
                     </div>
                 </div>
@@ -28,17 +32,78 @@
 
 import { ref, onMounted , provide, reactive } from 'vue'
 
-import Item from "./module-layout/Item.vue"
-import SortList from "./module-layout/SortList.vue"
+import Item from "./module/Item.vue"
+import SortList from "./module/SortList.vue"
+import type {ModuleBlock} from '@/type'
+
+
+interface PageLayout{
+    template: ModuleBlock,
+	header: ModuleBlock,
+	page: ModuleBlock,
+	footer: ModuleBlock,
+}
+
+
+const layout = ref<PageLayout | null >();
+const modules = ref();
+
+modules.value = [
+    'image-bar',
+    'feature-row',
+    'slideshow',
+    'feature-columns',
+    'hero',
+    
+]
+
+layout.value = {
+	template:{
+		id: 'template',
+		name: 'template',
+	},
+	header:{
+		id: 'header',
+		name: 'header',
+	},
+	footer:{
+		id: 'footer',
+		name: 'footer',
+        blockTypes: ['link_list','newsletter','text'],
+        blocksLimit: 4,
+        blocks:[],
+	},
+	page:{
+		id: 'home-1',
+		name: 'page',
+		blocks: [
+			{
+				id: 'image-bar',
+				name: 'image-bar',
+				blocks:[
+					{ id:'image-bar/image-0', name: 'image', label:'图片'},
+					{ id:'image-bar/image-2', name: 'image', label:'图片'},
+					{ id:'image-bar/image-3', name: 'image', label:'图片'},
+				],
+			},
+			{
+				id: 'feature-row',
+				name: "feature-row",
+				blocks:[
+					{ id:'feature-row/image-0', name: 'image', label:'添加标题或标语'},
+					{ id:'feature-row/image-2', name: 'image', label:'添加标题或标语'},
+					{ id:'feature-row/image-3', name: 'image', label:'添加标题或标语'},
+				],
+			},
+		]
+	},
+}
+
 
 
 
 const dragRef = ref(null);
 const selectedItem = ref<Function | null>(null)
-
-const props = defineProps({
-    layout: { type: Object,  required: true }
-})
 
 
 const onItemSelected:Function = (item: Function)=>{
@@ -47,7 +112,13 @@ const onItemSelected:Function = (item: Function)=>{
     selectedItem.value(true)
 }
 
+const onItemAppend:Function = (id: string)=>{
+    let i = findObject
+    i.blocks[] = 
+}
+
 provide('onItemSelected', onItemSelected);
+provide('onItemAppend', onItemAppend);
 
 
 </script>
@@ -277,6 +348,12 @@ provide('onItemSelected', onItemSelected);
                     background-color: var(--p-surface-hovered)!important;
                     .q-focus-helper{
                         opacity: 0;
+                    }
+                }
+
+                @media (min-width: 40em){
+                    &{
+                        font-size: .875rem;
                     }
                 }
             }

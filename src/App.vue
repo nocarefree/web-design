@@ -6,82 +6,12 @@ import HeaderArea from './components/HeaderArea.vue'
 import ModuleLayout from './components/ModuleLayout.vue'
 import ModuleEditor from './components/ModuleEditor.vue'
 
-interface Block{
-    id: String | Number,
-	name: String,
-	json ?: any,
-	label ?: String,
-}
-
-interface Module extends Block{
-    id: String | Number,
-    label: String,
-	name: String,
-    svg ?: String,
-	blocks ?: Array<Block>,
-}
-
-interface PageLayout{
-    id: String | Number,
-	label: String,
-    common: Module,
-    top: Module,
-    bottom: Module,
-    items: Array<Module>,
-}
-
-
-const layout = ref<PageLayout | null >();
-
-layout.value = {
-	id: 'home-1',
-	label: '主页',
-	common:{
-		id: 'common',
-		name: 'common',
-		label: '模板设置',
-	},
-	top:{
-		id: 'top',
-		name: 'top',
-		label: '标头',
-	},
-	bottom:{
-		id: 'bottom',
-		name: 'bottom',
-		label: '页脚',
-	},
-	items:[
-		{
-			id: 'image-bar',
-			label: '图库',
-			name: 'image-bar',
-			blocks:[
-				{ id:'image-0', name: 'image', label:'图片'},
-				{ id:'image-2', name: 'image', label:'图片'},
-				{ id:'image-3', name: 'image', label:'图片'},
-			],
-		},
-		{
-			id: 'feature-row',
-			name: "feature-row",
-			label: '带文字图片',
-			blocks:[
-				{ id:'image-0', name: 'image', label:'添加标题或标语'},
-				{ id:'image-2', name: 'image', label:'添加标题或标语'},
-				{ id:'image-3', name: 'image', label:'添加标题或标语'},
-			],
-		},
-	],
-}
-
-
 </script>
 
 <template>
 	<div class="iframe">
 		<header class="header"><HeaderArea /></header>
-		<aside class="sidebar"><ModuleLayout v-if="layout" :layout="layout" /></aside>
+		<aside class="sidebar"><ModuleLayout /></aside>
 		<div class="sidebar secondary"><ModuleEditor /></div>
 		<main class="main">{{ $t('world') }}</main>
 	</div>	

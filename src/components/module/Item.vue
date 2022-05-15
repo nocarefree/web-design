@@ -7,7 +7,12 @@
                 </q-btn>
             </div>
             <div class="primary-action">
-                <q-btn flat dense align="left" class="primary-button" @click="onSelected()" :label="props.label"></q-btn>
+                <q-btn flat dense align="left" class="primary-button" @click="onSelected()">
+                    <q-icon class="prefix" v-if="getSvg(props.name)">
+                        <component :is="getSvg(props.name)" />
+                    </q-icon>
+                    <span>{{ $t(`modue-title.${props.name}`) }}</span>
+                </q-btn>
             </div>
             <div class="trailing-content" v-if="draggable">
                 <div class="plain-action-wrapper">
@@ -22,23 +27,31 @@
                 </div>
             </div>
         </div>
-        <div v-if="blocks" class="collapsible" v-show="expanded">
-            <SortList :items="blocks" draggable :parent-id="props.id" />
+        <div v-if="props.blocks" class="collapsible" v-show="expanded">
+            <SortList v-bind="props"  />
         </div>
     </li>
 </template>
 
 <script setup lang="ts">
 
-import { ref, watch, inject } from 'vue'
+import { ref, watch, inject, computed } from 'vue'
 import SortList from './SortList.vue'
 
+import IconHeader from '@/components/icons/moduleItems/IconHeader.vue'
+import IconFooter from '@/components/icons/moduleItems/IconFooter.vue'
+import IconImage from '@/components/icons/moduleItems/IconImage.vue'
+import IconList from '@/components/icons/moduleItems/IconList.vue'
+import IconImageBar from '@/components/icons/moduleItems/IconImageBar.vue'
+import IconFeatureRow from '@/components/icons/moduleItems/IconFeatureRow.vue'
+
+
+
 const props = defineProps({
-    id: { type: String, required: true },
-    label: { type: String, required: true },
-    svg: String,
-    blocks: { type: Array },
-    draggable: { type: Boolean, default: false },
+    id: { type: String, required: true},
+	name: { type: String, required: true},
+    draggable: { type: Boolean, default: false},
+	blocks: Array,
 })
 
 
@@ -61,6 +74,18 @@ const onSelected = ()=>{
     onItemSelected((status : boolean)=>{
         selected.value = status;
     })
+}
+
+const getSvg = (key)=>{
+    let map = {
+        'header': IconHeader,
+        'footer': IconFooter,
+        'image': IconImage,
+        'list': IconList,
+        'image-bar': IconImageBar,
+        'feature-row': IconFeatureRow,
+    }
+    return map[key]?map[key]:null;
 }
 
 

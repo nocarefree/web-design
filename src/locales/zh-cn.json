@@ -1,9 +1,29 @@
 {
     "world": "the world!",
+    "page-title":{
+        "home":"主页",
+        "collection":"产品系列",
+        "product":"产品",
+        "cart":"购物车",
+        "checkout":"结账",
+        "article":"文章"
+    },
+    "modue-title": {
+        "header": "标头",
+        "footer": "页脚",
+        "template": "模板设置",
+        "feature-row":"特色产品",
+        "slideshow":"幻灯片",
+        "image-bar":"图库",
+        "image":"图片"
+    },
     "button": {
-        "module-add": "添加分区",
+        "page-add": "添加分区",
         "footer-add": "添加块",
-        "image-add": "添加图片"
+        "image-add": "添加图片",
+        "feature-row-add": "添加列",
+        "image-bar-add":"添加图片",
+        "slideshow-add":"添加幻灯片"
     }
 }
   
