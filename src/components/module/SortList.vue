@@ -5,7 +5,7 @@
             v-bind="item" 
             draggable />
         <ItemAdd 
-            :name="props.name" @click="">
+            :name="props.name">
         </ItemAdd>
     </ol>
 </template>                        

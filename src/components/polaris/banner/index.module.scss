@@ -1,0 +1,985 @@
+.TextField {
+    --pc-text-field-contents: 20;
+    --pc-text-field-backdrop: 10;
+    align-items: center;
+    border: none;
+    color: var(--p-text);
+    cursor: text;
+    display: flex;
+    font-size: var(--p-font-size-5);
+    font-weight: var(--p-font-weight-regular);
+    letter-spacing: normal;
+    line-height: var(--p-line-height-3);
+    position: relative;
+    text-transform: none
+}
+
+@media (min-width: 40em) {
+    .TextField {
+        font-size:var(--p-font-size-3)
+    }
+}
+
+.TextField svg {
+    fill: var(--p-icon)
+}
+
+.TextField--multiline {
+    flex-wrap: wrap;
+    padding: 0
+}
+
+.TextField--multiline>.TextField__Input {
+    overflow: auto;
+    padding-left: var(--p-space-3);
+    padding-right: var(--p-space-3);
+    resize: none
+}
+
+.TextField--hasValue {
+    color: var(--p-text)
+}
+
+.TextField--focus>.TextField__Input,.TextField--focus>.TextField__VerticalContent,.TextField__Input:focus {
+    outline: none
+}
+
+.TextField--focus>.TextField__Input~.TextField__Backdrop:after,.TextField--focus>.TextField__VerticalContent~.TextField__Backdrop:after,.TextField__Input:focus~.TextField__Backdrop:after {
+    box-shadow: 0 0 0 .125rem var(--p-focused);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.TextField--error .TextField__Input::placeholder {
+    color: #9c9798
+}
+
+.TextField--error>.TextField__Input~.TextField__Backdrop {
+    background-color: var(--p-surface-critical-subdued);
+    border-color: var(--p-border-critical)
+}
+
+.TextField--error>.TextField__Input~.TextField__Backdrop:after {
+    border-color: var(--p-focused)
+}
+
+.TextField--readOnly>.TextField__Backdrop {
+    background-color: var(--p-action-secondary-disabled)
+}
+
+.TextField--disabled {
+    color: var(--p-text-disabled);
+    cursor: auto
+}
+
+.TextField--disabled>.TextField__Backdrop {
+    background-color: var(--p-surface-disabled);
+    border-top-color: var(--p-border-disabled)
+}
+
+.TextField--disabled svg {
+    fill: var(--p-icon-disabled)
+}
+
+.TextField__Input {
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    border: none;
+    border: var(--p-border-transparent);
+    caret-color: var(--p-text);
+    color: var(--p-text);
+    display: block;
+    flex: 1 1;
+    font-family: var(--p-font-family-sans);
+    font-size: var(--p-font-size-5);
+    font-weight: var(--p-font-weight-regular);
+    letter-spacing: normal;
+    line-height: var(--p-line-height-3);
+    margin: 0;
+    min-height: 2.25rem;
+    min-width: 0;
+    padding: calc((var(--p-line-height-6) - var(--p-line-height-3) - var(--p-space-05))/2) var(--p-space-3);
+    position: relative;
+    text-transform: none;
+    width: 100%;
+    z-index: var(--pc-text-field-contents)
+}
+
+@media (min-width: 40em) {
+    .TextField__Input {
+        font-size:var(--p-font-size-3)
+    }
+}
+
+.TextField__Prefix+.TextField__Input {
+    padding-left: 0
+}
+
+.TextField__Input:disabled {
+    -webkit-text-fill-color: var(--p-text-disabled);
+    background: none;
+    color: var(--p-text-disabled);
+    opacity: 1
+}
+
+.TextField__Input:invalid {
+    box-shadow: none
+}
+
+.TextField__Input::placeholder {
+    color: var(--p-text-subdued)
+}
+
+.TextField__Input[type=number] {
+    -webkit-appearance: textfield;
+    appearance: textfield
+}
+
+.TextField__Input[type=number]::-webkit-inner-spin-button,.TextField__Input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0
+}
+
+.TextField__Input:-webkit-autofill {
+    border-radius: var(--p-border-radius-1)
+}
+
+.TextField__Input.TextField--suggestion::selection {
+    background: #0000;
+    color: var(--p-text-disabled)
+}
+
+.TextField__Input--hasClearButton[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none
+}
+
+.TextField__Input--suffixed {
+    padding-right: 0
+}
+
+.TextField__Input--alignRight {
+    text-align: right
+}
+
+.TextField__Input--alignLeft {
+    text-align: left
+}
+
+.TextField__Input--alignCenter {
+    text-align: center
+}
+
+.TextField__Backdrop {
+    background-color: var(--p-surface);
+    border: var(--p-border-width-1) solid var(--p-border-subdued);
+    border-radius: var(--p-border-radius-1);
+    border-top-color: var(--p-border-shadow);
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    position: relative;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: var(--pc-text-field-backdrop)
+}
+
+.TextField__Backdrop:after {
+    border-radius: calc(var(--p-border-radius-1) + .0625rem);
+    bottom: -.125rem;
+    box-shadow: 0 0 0 -.125rem var(--p-focused);
+    content: "";
+    display: block;
+    left: -.125rem;
+    pointer-events: none;
+    position: absolute;
+    right: -.125rem;
+    top: -.125rem;
+    transition: box-shadow var(--p-duration-100) var(--p-ease);
+    z-index: 1
+}
+
+.TextField__Prefix,.TextField__Suffix {
+    color: var(--p-text-subdued);
+    flex: 0 0 auto;
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
+    z-index: var(--pc-text-field-contents)
+}
+
+.TextField__Prefix {
+    margin-left: var(--p-space-3);
+    margin-right: var(--p-space-2)
+}
+
+.TextField__Suffix {
+    margin-left: var(--p-space-1);
+    margin-right: var(--p-space-3)
+}
+
+.TextField__VerticalContent {
+    border: var(--p-border-transparent);
+    color: var(--p-text-subdued);
+    max-height: 8.75rem;
+    overflow: scroll;
+    padding: var(--p-space-2) var(--p-space-2) 0 var(--p-space-2);
+    position: relative;
+    width: 100%;
+    z-index: var(--pc-text-field-contents)
+}
+
+.TextField__VerticalContent>.TextField__Input {
+    padding-left: var(--p-space-0);
+    padding-right: var(--p-space-0)
+}
+
+@media (min-width: 30.625em) {
+    .TextField__VerticalContent {
+        max-height:20.5rem
+    }
+}
+
+.TextField__CharacterCount {
+    color: var(--p-text-subdued);
+    margin: 0 var(--p-space-3) 0 var(--p-space-1);
+    pointer-events: none;
+    text-align: right;
+    z-index: var(--pc-text-field-contents)
+}
+
+.TextField__AlignFieldBottom {
+    align-self: flex-end;
+    padding-bottom: var(--p-space-2);
+    width: 100%
+}
+
+.TextField__ClearButton {
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0;
+    margin: 0 var(--p-space-3) 0 var(--p-space-1);
+    padding: 0;
+    position: relative;
+    z-index: var(--pc-text-field-contents)
+}
+
+.TextField__ClearButton:after {
+    border-radius: calc(var(--p-border-radius-1) + .0625rem);
+    bottom: -.0625rem;
+    box-shadow: 0 0 0 -.0625rem var(--p-focused);
+    content: "";
+    display: block;
+    left: -.0625rem;
+    pointer-events: none;
+    position: absolute;
+    right: -.0625rem;
+    top: -.0625rem;
+    transition: box-shadow var(--p-duration-100) var(--p-ease);
+    z-index: 1
+}
+
+.TextField__ClearButton:focus {
+    outline: none
+}
+
+.TextField__ClearButton:focus:enabled:after {
+    box-shadow: 0 0 0 .125rem var(--p-focused);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.TextField__ClearButton:disabled {
+    cursor: default
+}
+
+.TextField__Spinner {
+    --pc-text-field-spinner-offset-large: calc(var(--p-text-field-spinner-offset) + var(--p-border-width-1));
+    align-self: stretch;
+    color: var(--p-icon);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    margin: var(--pc-text-field-spinner-offset-large);
+    width: 1.375rem;
+    z-index: var(--pc-text-field-contents)
+}
+
+.TextField__SpinnerIcon {
+    height: .75rem;
+    width: .75rem
+}
+
+.TextField__Resizer {
+    bottom: 0;
+    height: 0;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    visibility: hidden
+}
+
+.TextField__DummyInput {
+    word-wrap: break-word;
+    border: none;
+    font-size: var(--p-font-size-5);
+    font-weight: var(--p-font-weight-regular);
+    letter-spacing: normal;
+    line-height: var(--p-line-height-3);
+    overflow-wrap: break-word;
+    padding: calc((var(--p-line-height-6) - var(--p-line-height-3) - var(--p-space-05))/2) var(--p-space-3);
+    text-transform: none;
+    white-space: pre-wrap;
+    word-break: break-word
+}
+
+@media (min-width: 40em) {
+    .TextField__DummyInput {
+        font-size:var(--p-font-size-3)
+    }
+}
+
+.TextField__Segment {
+    --pc-text-field-spinner-border-radius: calc(var(--p-border-radius-1) - var(--p-text-field-spinner-offset));
+    align-items: center;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--p-surface-neutral);
+    border: none;
+    border-radius: var(--pc-text-field-spinner-border-radius);
+    display: flex;
+    flex: 1 1;
+    justify-content: center
+}
+
+.TextField__Segment:focus {
+    outline: none
+}
+
+.TextField__Segment:active {
+    background: var(--p-surface-neutral-pressed)
+}
+
+.TextField__Segment:first-child {
+    border-top-right-radius: var(--pc-text-field-spinner-border-radius);
+    margin-bottom: var(--p-text-field-spinner-offset)
+}
+
+.TextField__Segment:last-child {
+    border-bottom-right-radius: var(--pc-text-field-spinner-border-radius)
+}
+
+.TextField__Segment:not(:first-child) {
+    margin-top: 0
+}
+
+.TextField--monospaced {
+    font-family: var(--p-font-family-mono)
+}
+
+.Labelled--hidden>.Labelled__LabelWrapper {
+    border: 0!important;
+    clip-path: inset(50%)!important;
+    height: .0625rem!important;
+    margin: 0!important;
+    overflow: hidden!important;
+    padding: 0!important;
+    position: absolute!important;
+    top: 0;
+    white-space: nowrap!important;
+    width: .0625rem!important
+}
+
+.Labelled__LabelWrapper {
+    word-wrap: break-word;
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: var(--p-space-1);
+    overflow-wrap: break-word;
+    word-break: break-word
+}
+
+.Labelled__HelpText {
+    word-wrap: break-word;
+    color: var(--p-text-subdued);
+    font-size: var(--p-font-size-4);
+    font-weight: var(--p-font-weight-regular);
+    letter-spacing: normal;
+    line-height: var(--p-line-height-2);
+    margin-top: var(--p-space-1);
+    overflow-wrap: break-word;
+    text-transform: none;
+    word-break: break-word
+}
+
+@media (min-width: 40em) {
+    .Labelled__HelpText {
+        font-size:var(--p-font-size-3)
+    }
+}
+
+.Labelled__Error {
+    word-wrap: break-word;
+    margin-top: var(--p-space-1);
+    overflow-wrap: break-word;
+    word-break: break-word
+}
+
+.Labelled__Action {
+    flex: 0 0 auto
+}
+
+.InlineError {
+    fill: var(--p-icon-critical);
+    color: var(--p-text-critical);
+    display: flex
+}
+
+.InlineError__Icon {
+    fill: currentColor;
+    margin-left: calc(var(--p-space-05)*-1);
+    margin-right: calc(var(--p-space-05) + var(--p-space-1))
+}
+
+.Label {
+    -webkit-tap-highlight-color: transparent
+}
+
+.Label--hidden {
+    border: 0!important;
+    clip-path: inset(50%)!important;
+    height: .0625rem!important;
+    margin: 0!important;
+    overflow: hidden!important;
+    padding: 0!important;
+    position: absolute!important;
+    top: 0;
+    white-space: nowrap!important;
+    width: .0625rem!important
+}
+
+.Label__Text {
+    -webkit-tap-highlight-color: transparent;
+    color: currentColor;
+    display: block;
+    flex: 1 1 auto;
+    font-size: var(--p-font-size-4);
+    font-weight: var(--p-font-weight-regular);
+    letter-spacing: normal;
+    line-height: var(--p-line-height-2);
+    text-transform: none
+}
+
+@media (min-width: 40em) {
+    .Label__Text {
+        font-size:var(--p-font-size-3)
+    }
+}
+
+.Label__RequiredIndicator:after {
+    color: var(--p-text-critical);
+    content: "*";
+    margin-left: var(--p-space-1)
+}
+
+.Banner {
+    --pc-banner-secondary-action-horizontal-padding: var(--p-space-3);
+    --pc-banner-secondary-action-vertical-padding: calc((var(--p-line-height-6) - var(--p-line-height-2))*0.5);
+    display: flex;
+    position: relative
+}
+
+.Banner.Banner--statusCritical .Banner__PrimaryAction .Banner__Button {
+    background: var(--p-surface-critical-subdued);
+    border-color: var(--p-border-critical-subdued)
+}
+
+.Banner.Banner--statusCritical .Banner__PrimaryAction .Banner__Button:hover {
+    background: var(--p-surface-critical-subdued-hovered);
+    border-color: var(--p-border-critical-subdued)
+}
+
+.Banner.Banner--statusCritical .Banner__PrimaryAction .Banner__Button:active {
+    background: var(--p-surface-critical-subdued-pressed);
+    border-color: var(--p-border-critical-subdued)
+}
+
+.Banner.Banner--statusCritical .Banner__PrimaryAction .Banner__Button:focus:not(:active) {
+    background: var(--p-surface-critical-subdued);
+    border-color: var(--p-border-critical-subdued)
+}
+
+.Banner.Banner--statusWarning .Banner__PrimaryAction .Banner__Button {
+    background: var(--p-surface-warning-subdued);
+    border-color: var(--p-border-warning-subdued)
+}
+
+.Banner.Banner--statusWarning .Banner__PrimaryAction .Banner__Button:hover {
+    background: var(--p-surface-warning-subdued-hovered);
+    border-color: var(--p-border-warning-subdued)
+}
+
+.Banner.Banner--statusWarning .Banner__PrimaryAction .Banner__Button:active {
+    background: var(--p-surface-warning-subdued-pressed);
+    border-color: var(--p-border-warning-subdued)
+}
+
+.Banner.Banner--statusWarning .Banner__PrimaryAction .Banner__Button:focus:not(:active) {
+    background: var(--p-surface-warning-subdued);
+    border-color: var(--p-border-warning-subdued)
+}
+
+.Banner.Banner--statusInfo .Banner__PrimaryAction .Banner__Button {
+    background: var(--p-surface-highlight-subdued);
+    border-color: var(--p-border-highlight-subdued)
+}
+
+.Banner.Banner--statusInfo .Banner__PrimaryAction .Banner__Button:hover {
+    background: var(--p-surface-highlight-subdued-hovered);
+    border-color: var(--p-border-highlight-subdued)
+}
+
+.Banner.Banner--statusInfo .Banner__PrimaryAction .Banner__Button:active {
+    background: var(--p-surface-highlight-subdued-pressed);
+    border-color: var(--p-border-highlight-subdued)
+}
+
+.Banner.Banner--statusInfo .Banner__PrimaryAction .Banner__Button:focus:not(:active) {
+    background: var(--p-surface-highlight-subdued);
+    border-color: var(--p-border-highlight-subdued)
+}
+
+.Banner.Banner--statusSuccess .Banner__PrimaryAction .Banner__Button {
+    background: var(--p-surface-success-subdued);
+    border-color: var(--p-border-success-subdued)
+}
+
+.Banner.Banner--statusSuccess .Banner__PrimaryAction .Banner__Button:hover {
+    background: var(--p-surface-success-subdued-hovered);
+    border-color: var(--p-border-success-subdued)
+}
+
+.Banner.Banner--statusSuccess .Banner__PrimaryAction .Banner__Button:active {
+    background: var(--p-surface-success-subdued-pressed);
+    border-color: var(--p-border-success-subdued)
+}
+
+.Banner.Banner--statusSuccess .Banner__PrimaryAction .Banner__Button:focus:not(:active) {
+    background: var(--p-surface-success-subdued);
+    border-color: var(--p-border-success-subdued)
+}
+
+.Banner__ContentWrapper {
+    flex: 1 1 auto;
+    margin-top: calc(var(--p-space-05)*-1)
+}
+
+.Banner--withinContentContainer {
+    --pc-banner-background: var(--p-background);
+    --pc-banner-border: var(--p-banner-border-default);
+    background-color: var(--pc-banner-background);
+    border-radius: var(--p-border-radius-1);
+    box-shadow: var(--pc-banner-border);
+    outline: var(--p-border-width-1) solid #0000;
+    padding: var(--p-space-4);
+    position: relative;
+    transition: box-shadow var(--p-duration-200) var(--p-ease);
+    transition-delay: var(--p-duration-100)
+}
+
+.Banner--withinContentContainer .Banner__Dismiss {
+    position: absolute;
+    right: var(--p-space-3);
+    top: var(--p-space-4)
+}
+
+.Banner--withinContentContainer .Banner__Ribbon {
+    padding-right: var(--p-space-4)
+}
+
+.Banner--withinContentContainer:after {
+    border-radius: calc(var(--p-border-radius-1) + .0625rem);
+    bottom: -.0625rem;
+    box-shadow: 0 0 0 -.0625rem var(--p-focused);
+    content: "";
+    display: block;
+    left: -.0625rem;
+    pointer-events: none;
+    position: absolute;
+    right: -.0625rem;
+    top: -.0625rem;
+    transition: box-shadow var(--p-duration-100) var(--p-ease);
+    z-index: 1
+}
+
+.Banner--withinContentContainer:focus {
+    outline: none
+}
+
+.Banner--withinContentContainer.Banner--keyFocused {
+    box-shadow: var(--pc-banner-border)
+}
+
+.Banner--withinContentContainer.Banner--keyFocused:after {
+    box-shadow: 0 0 0 .125rem var(--p-focused);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.Banner--withinContentContainer.Banner--statusSuccess {
+    --pc-banner-background: var(--p-surface-success-subdued);
+    --pc-banner-border: var(--p-banner-border-success)
+}
+
+.Banner--withinContentContainer.Banner--statusInfo {
+    --pc-banner-background: var(--p-surface-highlight-subdued);
+    --pc-banner-border: var(--p-banner-border-highlight)
+}
+
+.Banner--withinContentContainer.Banner--statusWarning {
+    --pc-banner-background: var(--p-surface-warning-subdued);
+    --pc-banner-border: var(--p-banner-border-warning)
+}
+
+.Banner--withinContentContainer.Banner--statusCritical {
+    --pc-banner-background: var(--p-surface-critical-subdued);
+    --pc-banner-border: var(--p-banner-border-critical)
+}
+
+.Banner--withinContentContainer+.Banner {
+    margin-top: var(--p-space-2)
+}
+
+.Banner--withinContentContainer .Banner__Actions {
+    padding: var(--p-space-3) 0 var(--p-space-1) 0
+}
+
+.Banner--withinPage {
+    --pc-banner-background: var(--p-background);
+    --pc-banner-border: var(--p-banner-border-default);
+    background-color: var(--pc-banner-background);
+    border-radius: 0 0 var(--p-border-radius-base) var(--p-border-radius-base);
+    border-radius: var(--p-border-radius-2);
+    box-shadow: var(--pc-banner-border);
+    outline: var(--p-border-width-1) solid #0000;
+    padding: var(--p-space-5);
+    position: relative;
+    transition: box-shadow var(--p-duration-200) var(--p-ease);
+    transition-delay: var(--p-duration-100)
+}
+
+.Banner--withinPage:after {
+    border-radius: calc(var(--p-border-radius-2) + .0625rem);
+    bottom: -.0625rem;
+    box-shadow: 0 0 0 -.0625rem var(--p-focused);
+    content: "";
+    display: block;
+    left: -.0625rem;
+    pointer-events: none;
+    position: absolute;
+    right: -.0625rem;
+    top: -.0625rem;
+    transition: box-shadow var(--p-duration-100) var(--p-ease);
+    z-index: 1
+}
+
+.Banner--withinPage:focus {
+    outline: none
+}
+
+.Banner--withinPage.Banner--keyFocused {
+    box-shadow: var(--pc-banner-border)
+}
+
+.Banner--withinPage.Banner--keyFocused:after {
+    box-shadow: 0 0 0 .125rem var(--p-focused);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.Banner--withinPage.Banner--statusSuccess {
+    --pc-banner-background: var(--p-surface-success-subdued);
+    --pc-banner-border: var(--p-banner-border-success)
+}
+
+.Banner--withinPage.Banner--statusInfo {
+    --pc-banner-background: var(--p-surface-highlight-subdued);
+    --pc-banner-border: var(--p-banner-border-highlight)
+}
+
+.Banner--withinPage.Banner--statusWarning {
+    --pc-banner-background: var(--p-surface-warning-subdued);
+    --pc-banner-border: var(--p-banner-border-warning)
+}
+
+.Banner--withinPage.Banner--statusCritical {
+    --pc-banner-background: var(--p-surface-critical-subdued);
+    --pc-banner-border: var(--p-banner-border-critical)
+}
+
+.Banner--withinPage+.Banner {
+    margin-top: var(--p-space-5)
+}
+
+.Banner--withinPage .Banner__Ribbon {
+    padding-right: var(--p-space-4)
+}
+
+.Banner--withinPage .Banner__Actions {
+    padding-top: var(--p-space-4)
+}
+
+.Banner--withinPage .Banner__Dismiss {
+    position: absolute;
+    right: var(--p-space-4);
+    top: var(--p-space-5)
+}
+
+.Banner--hasDismiss {
+    padding-right: calc(var(--p-space-8) + var(--p-icon-size-small))
+}
+
+.Banner__Heading {
+    word-break: break-word
+}
+
+.Banner__Content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding: var(--p-space-05) 0;
+    word-break: break-word
+}
+
+.Banner__Ribbon {
+    flex: 0 0 var(--p-space-8)
+}
+
+.Banner__PrimaryAction {
+    margin-right: var(--p-space-2)
+}
+
+.Banner__SecondaryAction {
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    border: none;
+    color: inherit;
+    color: var(--p-text);
+    cursor: pointer;
+    display: inline-block;
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0;
+    margin: calc(var(--pc-banner-secondary-action-vertical-padding)*-1) calc(var(--pc-banner-secondary-action-horizontal-padding)*-.5);
+    padding: 0;
+    padding: var(--pc-banner-secondary-action-vertical-padding) var(--pc-banner-secondary-action-horizontal-padding);
+    padding-left: var(--p-space-2);
+    text-align: left;
+    text-decoration: none
+}
+
+.Banner__SecondaryAction:focus {
+    outline: none
+}
+
+.Banner__SecondaryAction:active>.Banner__Text,.Banner__SecondaryAction:hover>.Banner__Text {
+    text-decoration: underline
+}
+
+.Banner__SecondaryAction:focus>.Banner__Text {
+    background: #0000;
+    border-radius: var(--p-border-radius-base);
+    box-shadow: none;
+    margin: calc(var(--p-space-05)*-1) calc(var(--p-space-1)*-1);
+    padding: var(--p-space-05) var(--p-space-1);
+    text-decoration: underline
+}
+
+@media (-ms-high-contrast:active) {
+    .Banner__SecondaryAction:focus>.Banner__Text {
+        outline: var(--p-border-width-2) dotted
+    }
+}
+
+.Banner__SecondaryAction:focus>.Banner__Text:after {
+    box-shadow: 0 0 0 .125rem var(--p-focused);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.Banner__SecondaryAction:visited {
+    color: inherit
+}
+
+.Banner__Text {
+    position: relative
+}
+
+.Banner__Text:after {
+    border-radius: calc(var(--p-border-radius-1) + .0625rem);
+    bottom: -.0625rem;
+    box-shadow: 0 0 0 -.0625rem var(--p-focused);
+    content: "";
+    display: block;
+    left: -.0625rem;
+    pointer-events: none;
+    position: absolute;
+    right: -.0625rem;
+    top: -.0625rem;
+    transition: box-shadow var(--p-duration-100) var(--p-ease);
+    z-index: 1
+}
+
+.Banner__Button {
+    -webkit-tap-highlight-color: transparent;
+    align-items: center;
+    background: var(--p-surface);
+    border: var(--p-border-width-1) solid var(--p-border-neutral-subdued);
+    border-bottom-color: var(--p-border-shadow-subdued);
+    border-radius: var(--p-border-radius-1);
+    border-top-color: var(--p-border-subdued);
+    box-shadow: var(--p-shadow-button);
+    color: var(--p-text);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: var(--p-font-size-4);
+    font-weight: var(--p-font-weight-medium);
+    justify-content: center;
+    letter-spacing: normal;
+    line-height: 1;
+    line-height: var(--p-line-height-1);
+    margin: 0;
+    min-height: var(--p-line-height-6);
+    min-width: var(--p-line-height-6);
+    padding: calc((var(--p-line-height-6) - var(--p-line-height-2) - var(--p-space-05))/2) var(--p-space-4);
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: none;
+    -webkit-user-select: none;
+    user-select: none
+}
+
+.Banner__Button svg {
+    fill: var(--p-icon)
+}
+
+.Banner__Button:after {
+    bottom: calc(var(--p-border-width-1)*-1 - .0625rem);
+    box-shadow: 0 0 0 calc(var(--p-border-width-1)*-1 - .0625rem) var(--p-focused);
+    left: calc(var(--p-border-width-1)*-1 - .0625rem);
+    right: calc(var(--p-border-width-1)*-1 - .0625rem);
+    top: calc(var(--p-border-width-1)*-1 - .0625rem)
+}
+
+.Banner__Button:hover {
+    background: var(--p-action-secondary-hovered);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.Banner__Button:focus {
+    box-shadow: var(--p-shadow-button);
+    outline: 0
+}
+
+.Banner__Button:active {
+    background: var(--p-action-secondary-pressed);
+    box-shadow: var(--p-shadow-button)
+}
+
+.Banner__Button:active:after {
+    border: none;
+    box-shadow: none
+}
+
+.Banner__Button.Banner--pressed {
+    background: var(--p-action-secondary-depressed);
+    border-color: var(--p-border-depressed);
+    box-shadow: var(--p-shadows-inset-button-pressed);
+    color: var(--p-text-on-primary)
+}
+
+.Banner__Button.Banner--pressed svg {
+    fill: currentColor
+}
+
+@media (-ms-high-contrast:active) {
+    .Banner__Button {
+        border: var(--p-border-width-1) solid windowText
+    }
+}
+
+@media (min-width: 40em) {
+    .Banner__Button {
+        font-size:var(--p-font-size-3)
+    }
+}
+
+.Banner__Button:after {
+    border-radius: calc(var(--p-border-radius-1) + .0625rem);
+    bottom: -.1875rem;
+    box-shadow: 0 0 0 -.1875rem var(--p-focused);
+    content: "";
+    display: block;
+    left: -.1875rem;
+    pointer-events: none;
+    position: absolute;
+    right: -.1875rem;
+    top: -.1875rem;
+    transition: box-shadow var(--p-duration-100) var(--p-ease);
+    z-index: 1
+}
+
+.Banner__Button:focus:after {
+    box-shadow: 0 0 0 .125rem var(--p-focused);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.Banner--loading {
+    color: #0000;
+    pointer-events: none;
+    position: relative
+}
+
+.Banner__Spinner {
+    --pc-spinner-size: var(--p-space-5);
+    left: 50%;
+    margin-left: calc((var(--pc-spinner-size)/2)*-1);
+    margin-top: calc((var(--pc-spinner-size)/2)*-1);
+    position: absolute;
+    top: 50%
+}
+
+.Connected {
+    --pc-connected-item: 10;
+    --pc-connected-primary: 20;
+    --pc-connected-focused: 30;
+    display: flex;
+    position: relative
+}
+
+.Connected__Item {
+    flex: 0 0 auto;
+    position: relative;
+    z-index: var(--pc-connected-item)
+}
+
+.Connected__Item:not(:first-child) {
+    margin-left: var(--p-space-1)
+}
+
+.Connected__Item--primary {
+    flex: 1 1 auto;
+    z-index: var(--pc-connected-primary)
+}
+
+.Connected__Item--focused {
+    z-index: var(--pc-connected-focused)
+}

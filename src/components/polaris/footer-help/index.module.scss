@@ -1,0 +1,28 @@
+.FooterHelp {
+    display: flex;
+    justify-content: center;
+    margin: var(--p-space-5) 0;
+    width: 100%
+}
+
+@media (min-width: 30.625em) {
+    .FooterHelp {
+        margin:var(--p-space-5);
+        width: auto
+    }
+}
+
+.FooterHelp__Text {
+    border: none;
+    font-size: var(--p-font-size-200);
+    font-weight: var(--p-font-weight-regular);
+    letter-spacing: normal;
+    line-height: var(--p-font-line-height-3);
+    text-transform: none
+}
+
+@media (min-width: 48em) {
+    .FooterHelp__Text {
+        font-size:var(--p-font-size-100)
+    }
+}

@@ -85,13 +85,40 @@
         svg?: any,
     }
 
+    const pageType = [
+        '404',
+        'article',
+        'blog',
+        'cart',
+        'collection',
+        'list-collections',
+        'customers/account',
+        'customers/activate_account',
+        'customers/addresses',
+        'customers/login',
+        'customers/order',
+        'customers/register',
+        'customers/reset_password',
+        'gift_card',
+        'index',
+        'page',
+        'password',
+        'product',
+        'search'
+    ]
+
     const pageTemplates : Array<PageTemplate> = [
-        { value: 'home', svg: IconHome },
+        { value: 'index', svg: IconHome },
         { value: 'collection', svg: IconCollection },
+        { value: 'list-collection', svg: IconCollection },
         { value: 'product', svg: IconProduct },
         { value: 'cart', svg: IconCart },
         { value: 'checkout', svg: IconCart },
         { value: 'article',svg: IconArticle },
+        { value: '404',svg: IconArticle },
+        { value: 'page',svg: IconArticle },
+        { value: 'blog',svg: IconArticle },
+        { value: 'search',svg: IconArticle },
     ]
 
     const screens : Array<ScreenType> = [

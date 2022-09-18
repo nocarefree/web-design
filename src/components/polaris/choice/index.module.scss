@@ -1,0 +1,592 @@
+.Choice {
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: flex-start;
+    padding: var(--p-space-1) 0
+}
+
+.Choice--labelHidden {
+    padding: 0
+}
+
+.Choice--labelHidden>.Choice__Label {
+    border: 0 !important;
+    clip-path: inset(50%) !important;
+    height: .0625rem !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    top: 0;
+    white-space: nowrap !important;
+    width: .0625rem !important
+}
+
+.Choice--labelHidden .Choice__Control {
+    margin-right: 0;
+    margin-top: 0
+}
+
+.Choice--disabled {
+    cursor: default
+}
+
+.Choice--disabled>.Choice__Label {
+    color: var(--p-text-disabled)
+}
+
+.Choice--disabled>.Choice__Label:hover {
+    cursor: default
+}
+
+@media (-ms-high-contrast:active) {
+    .Choice--disabled>.Choice__Label {
+        color: grayText
+    }
+}
+
+.Choice__Control {
+    --pc-choice-size: var(--p-choice-size);
+    align-items: stretch;
+    display: flex;
+    flex: 0 0 auto;
+    height: var(--pc-choice-size);
+    margin-right: var(--p-space-2);
+    width: var(--pc-choice-size)
+}
+
+@media (max-width:40em) {
+    .Choice__Control {
+        --pc-choice-size: 1.375rem
+    }
+}
+
+.Choice__Control>* {
+    width: 100%
+}
+
+.Choice__Label {
+    -webkit-tap-highlight-color: transparent;
+    font-size: var(--p-font-size-4);
+    font-weight: var(--p-font-weight-regular);
+    letter-spacing: normal;
+    line-height: var(--p-line-height-2);
+    text-transform: none
+}
+
+@media (min-width:40em) {
+    .Choice__Label {
+        font-size: var(--p-font-size-3)
+    }
+}
+
+.Choice__Label:hover {
+    cursor: pointer
+}
+
+.Choice__Descriptions {
+    --pc-choice-size: var(--p-choice-size);
+    padding-left: calc(var(--p-space-2) + var(--pc-choice-size))
+}
+
+@media (max-width:40em) {
+    .Choice__Descriptions {
+        --pc-choice-size: 1.375rem
+    }
+}
+
+.Choice__HelpText {
+    color: var(--p-text-subdued);
+    font-size: var(--p-font-size-4);
+    font-weight: var(--p-font-weight-regular);
+    letter-spacing: normal;
+    line-height: var(--p-line-height-2);
+    margin-bottom: var(--p-space-1);
+    text-transform: none
+}
+
+@media (min-width:40em) {
+    .Choice__HelpText {
+        font-size: var(--p-font-size-3)
+    }
+}
+
+.Select {
+    --pc-select-backdrop: 10;
+    --pc-select-content: 20;
+    --pc-select-input: 30;
+    position: relative
+}
+
+.Select select::-ms-expand {
+    display: none
+}
+
+.Select--disabled .Select__Content {
+    color: var(--p-text-disabled)
+}
+
+.Select--disabled .Select__InlineLabel {
+    color: inherit
+}
+
+.Select--disabled .Select__Icon svg {
+    fill: var(--p-icon-disabled)
+}
+
+.Select--disabled .Select__Backdrop {
+    border-color: var(--p-border-disabled)
+}
+
+.Select--disabled .Select__Backdrop:before {
+    background-color: var(--p-action-secondary-disabled)
+}
+
+.Select--disabled .Select__Backdrop:hover {
+    cursor: default
+}
+
+.Select__Content {
+    align-items: center;
+    border: none;
+    display: flex;
+    font-size: var(--p-font-size-5);
+    font-weight: var(--p-font-weight-regular);
+    letter-spacing: normal;
+    line-height: var(--p-line-height-3);
+    min-height: 2.25rem;
+    padding: calc((var(--p-line-height-6) - var(--p-line-height-3) - var(--p-space-05))/2) var(--p-space-2) calc((var(--p-line-height-6) - var(--p-line-height-3) - var(--p-space-05))/2) var(--p-space-3);
+    position: relative;
+    text-transform: none;
+    width: 100%;
+    z-index: var(--pc-select-content)
+}
+
+@media (min-width:40em) {
+    .Select__Content {
+        font-size: var(--p-font-size-3)
+    }
+}
+
+.Select__InlineLabel {
+    color: var(--p-text-subdued);
+    margin-right: var(--p-space-1);
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.Select__SelectedOption {
+    flex: 1 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.Select__Prefix {
+    padding-right: var(--p-space-2)
+}
+
+.Select__Icon svg {
+    fill: var(--p-icon)
+}
+
+.Select__Input {
+    text-rendering: auto;
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    font-size: var(--p-font-size-5);
+    font-weight: var(--p-font-weight-regular);
+    height: 100%;
+    left: 0;
+    letter-spacing: normal;
+    line-height: var(--p-line-height-3);
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-transform: none;
+    top: 0;
+    width: 100%;
+    z-index: var(--pc-select-input)
+}
+
+@media (min-width:40em) {
+    .Select__Input {
+        font-size: var(--p-font-size-3)
+    }
+}
+
+.Select__Backdrop {
+    background-color: var(--p-surface);
+    border: var(--p-border-width-1) solid var(--p-border-subdued);
+    border-bottom-color: var(--p-border-shadow-subdued);
+    border-radius: var(--p-border-radius-1);
+    bottom: 0;
+    box-shadow: var(--p-shadow-button);
+    left: 0;
+    position: relative;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: var(--pc-select-backdrop)
+}
+
+.Select__Backdrop:after {
+    border-radius: calc(var(--p-border-radius-1) + .0625rem);
+    bottom: -.125rem;
+    box-shadow: 0 0 0 -.125rem var(--p-focused);
+    content: "";
+    display: block;
+    left: -.125rem;
+    pointer-events: none;
+    position: absolute;
+    right: -.125rem;
+    top: -.125rem;
+    transition: box-shadow var(--p-duration-100) var(--p-ease);
+    z-index: 1
+}
+
+.Select--error .Select__Backdrop {
+    background-color: var(--p-surface-critical-subdued);
+    border-color: var(--p-border-critical)
+}
+
+.Select--error .Select__Backdrop.Select--hover,
+.Select--error .Select__Backdrop:hover {
+    border-color: var(--p-border-critical)
+}
+
+.Select--error .Select__Input:focus~.Select__Backdrop:after,
+.Select__Input:focus~.Select__Backdrop:after {
+    box-shadow: 0 0 0 .125rem var(--p-focused);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+@media (-ms-high-contrast:active) {
+    .Select__Content {
+        -ms-high-contrast-adjust: none;
+        color: windowText
+    }
+
+    .Select__InlineLabel {
+        color: inherit
+    }
+
+    .Select__InlineLabel:after {
+        content: ":"
+    }
+
+    .Select__SelectedOption {
+        color: inherit
+    }
+
+    .Select__Icon svg {
+        fill: buttonText
+    }
+
+    .Select__Backdrop:after {
+        display: none
+    }
+
+    .Select__Input:focus~.Select__Content {
+        color: highlightText
+    }
+
+    .Select__Input:focus~.Select__Backdrop {
+        background-color: highlight
+    }
+
+    .Select--disabled .Select__Content {
+        color: grayText
+    }
+
+    .Select--disabled .Select__Icon {
+        opacity: 1
+    }
+
+    .Select--disabled .Select__Icon svg {
+        fill: grayText
+    }
+}
+
+.SkeletonDisplayText__DisplayText {
+    --pc-skeleton-display-text-height: var(--p-line-height-2);
+    --pc-skeleton-display-text-height-not-condensed: var(--p-line-height-2);
+    background-color: var(--p-surface-neutral);
+    border-radius: var(--p-border-radius-base);
+    display: flex;
+    max-width: 7.5rem
+}
+
+@media screen and (-ms-high-contrast:active) {
+    .SkeletonDisplayText__DisplayText {
+        background-color: grayText
+    }
+}
+
+.SkeletonDisplayText--sizeSmall {
+    --pc-skeleton-display-text-height: var(--p-line-height-3);
+    --pc-skeleton-display-text-height-not-condensed: var(--p-line-height-4);
+    height: var(--pc-skeleton-display-text-height)
+}
+
+@media (min-width:40em) {
+    .SkeletonDisplayText--sizeSmall {
+        height: var(--pc-skeleton-display-text-height-not-condensed)
+    }
+}
+
+.SkeletonDisplayText--sizeMedium {
+    --pc-skeleton-display-text-height: var(--p-line-height-4);
+    --pc-skeleton-display-text-height-not-condensed: var(--p-line-height-5);
+    height: var(--pc-skeleton-display-text-height)
+}
+
+@media (min-width:40em) {
+    .SkeletonDisplayText--sizeMedium {
+        height: var(--pc-skeleton-display-text-height-not-condensed)
+    }
+}
+
+.SkeletonDisplayText--sizeLarge {
+    --pc-skeleton-display-text-height: var(--p-line-height-4);
+    --pc-skeleton-display-text-height-not-condensed: var(--p-line-height-5);
+    height: var(--pc-skeleton-display-text-height)
+}
+
+@media (min-width:40em) {
+    .SkeletonDisplayText--sizeLarge {
+        height: var(--pc-skeleton-display-text-height-not-condensed)
+    }
+}
+
+.SkeletonDisplayText--sizeExtraLarge {
+    --pc-skeleton-display-text-height: var(--p-line-height-6);
+    --pc-skeleton-display-text-height-not-condensed: var(--p-line-height-7);
+    height: var(--pc-skeleton-display-text-height)
+}
+
+@media (min-width:40em) {
+    .SkeletonDisplayText--sizeExtraLarge {
+        height: var(--pc-skeleton-display-text-height-not-condensed)
+    }
+}
+
+.DatePicker {
+    --pc-date-picker-range-end-border-radius: var(--p-border-radius-6);
+    position: relative
+}
+
+.DatePicker__MonthLayout {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: calc(var(--p-space-4)*-1);
+    margin-top: calc(var(--p-space-4)*-1)
+}
+
+.DatePicker__MonthContainer {
+    flex: 1 1 14.375rem;
+    margin-left: var(--p-space-4);
+    margin-top: var(--p-space-4);
+    max-width: calc(100% - var(--p-space-4));
+    min-width: 14.375rem
+}
+
+.DatePicker__Month {
+    border: none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    width: 100%
+}
+
+.DatePicker__Month--current {
+    font-weight: var(--p-font-weight-bold)
+}
+
+.DatePicker__DayCell {
+    background: #0000;
+    border-radius: var(--p-border-radius-1);
+    margin: 0;
+    padding: 0;
+    width: 14.28571%
+}
+
+.DatePicker__DayCell--inRange {
+    border-radius: 0
+}
+
+.DatePicker__Day {
+    background: #0000;
+    border: none;
+    border-radius: var(--p-border-radius-1);
+    color: var(--p-text);
+    cursor: pointer;
+    display: block;
+    font-size: var(--p-font-size-1);
+    height: 100%;
+    margin: 0;
+    outline: none;
+    padding: var(--p-space-2);
+    position: relative;
+    text-align: center;
+    width: 100%
+}
+
+.DatePicker__Day:hover {
+    background: var(--p-interactive-hovered);
+    color: var(--p-text-on-interactive);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.DatePicker__Day:after {
+    border-radius: calc(var(--p-border-radius-1) + .0625rem);
+    bottom: -.0625rem;
+    box-shadow: 0 0 0 -.0625rem var(--p-focused);
+    content: "";
+    display: block;
+    left: -.0625rem;
+    pointer-events: none;
+    position: absolute;
+    right: -.0625rem;
+    top: -.0625rem;
+    transition: box-shadow var(--p-duration-100) var(--p-ease);
+    z-index: 1
+}
+
+.DatePicker__Day:focus:not(:active):after {
+    box-shadow: 0 0 0 .125rem var(--p-focused);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.DatePicker__Day--today {
+    font-weight: var(--p-font-weight-bold)
+}
+
+.DatePicker__Day--inRange {
+    background: var(--p-surface-selected);
+    border-radius: 0
+}
+
+@media (-ms-high-contrast:active) {
+    .DatePicker__Day--inRange {
+        -ms-high-contrast-adjust: none;
+        background-color: Highlight;
+        color: HighlightText
+    }
+
+    .DatePicker__Day--inRange:hover {
+        background-color: HighlightText;
+        color: Highlight;
+        outline: var(--p-border-width-2) solid Highlight
+    }
+}
+
+.DatePicker__Day--selected {
+    background: var(--p-interactive);
+    color: var(--p-text-on-interactive)
+}
+
+@media (-ms-high-contrast:active) {
+    .DatePicker__Day--selected {
+        -ms-high-contrast-adjust: none;
+        background-color: Highlight;
+        color: HighlightText
+    }
+
+    .DatePicker__Day--selected:hover {
+        background-color: HighlightText;
+        color: Highlight;
+        outline: var(--p-border-width-2) solid Highlight
+    }
+}
+
+.DatePicker__Day--disabled,
+.DatePicker__Day--disabled:hover {
+    background-color: initial;
+    color: var(--p-text-disabled)
+}
+
+@media (-ms-high-contrast) {
+    .DatePicker__Day--disabled {
+        -ms-high-contrast-adjust: none;
+        color: grayText
+    }
+
+    .DatePicker__Day--disabled:hover {
+        color: grayText;
+        outline: none
+    }
+}
+
+.DatePicker__Day--disabled:focus:after {
+    content: none
+}
+
+.DatePicker__EmptyDayCell {
+    margin: 0;
+    padding: 0;
+    width: 14.28571%
+}
+
+.DatePicker__Weekday {
+    background: #0000;
+    color: var(--p-text-subdued);
+    font-size: var(--p-font-size-1);
+    font-weight: var(--p-font-weight-regular);
+    padding: var(--p-space-2);
+    text-align: center
+}
+
+.DatePicker__Weekday--current {
+    color: var(--p-text);
+    font-weight: var(--p-font-weight-bold)
+}
+
+.DatePicker__Header {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: var(--p-space-4);
+    width: 100%
+}
+
+.DatePicker__Title {
+    flex: 1 1 auto;
+    margin-top: var(--p-space-05);
+    padding-bottom: var(--p-space-1);
+    text-align: center
+}
+
+.DatePicker__Day--firstInRange {
+    border-radius: var(--p-border-radius-1)
+}
+
+.DatePicker__Day--firstInRange.DatePicker__Day--hasRange,
+.DatePicker__Day--firstInRange.DatePicker__Day--hasRange:after,
+.DatePicker__Day--firstInRange.DatePicker__Day--hoverRight,
+.DatePicker__Day--firstInRange.DatePicker__Day--hoverRight:after {
+    border-radius: var(--pc-date-picker-range-end-border-radius) 0 0 var(--pc-date-picker-range-end-border-radius)
+}
+
+.DatePicker__Day--lastInRange,
+.DatePicker__Day--lastInRange:after {
+    border-radius: 0 var(--pc-date-picker-range-end-border-radius) var(--pc-date-picker-range-end-border-radius) 0
+}
+
+.DatePicker__Week {
+    margin-bottom: var(--p-space-05)
+}
+
+.DatePicker__Week>.DatePicker__Day--inRange:first-child:not(.DatePicker__Day--firstInRange):not(.DatePicker__Day--lastInRange) {
+    border-radius: var(--p-border-radius-1) 0 0 var(--p-border-radius-1)
+}
+
+.DatePicker__Week>.DatePicker__Day--inRange:last-child:not(.DatePicker__Day--firstInRange):not(.DatePicker__Day--lastInRange) {
+    border-radius: 0 var(--p-border-radius-1) var(--p-border-radius-1) 0
+}
+
+.DatePicker__Day--inRange:after,
+.DatePicker__Day--inRange:not(:hover)+.DatePicker__Day:after {
+    border-radius: 0 var(--pc-date-picker-range-end-border-radius) var(--pc-date-picker-range-end-border-radius) 0
+}

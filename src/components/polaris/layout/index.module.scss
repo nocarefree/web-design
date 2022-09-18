@@ -1,0 +1,117 @@
+
+@media print {
+    body .Layout {
+        font-size: var(--p-font-size-1);
+        line-height: var(--p-line-height-1)
+    }
+
+    .Layout a,.Layout button {
+        color: var(--p-text)
+    }
+}
+
+.Layout__Section {
+    flex: 2 2 30rem;
+    min-width: 51%
+}
+
+@media print {
+    .Layout__Section {
+        flex: 2 2 22.5rem
+    }
+}
+
+.Layout__Section--secondary {
+    flex: 1 1 15rem;
+    min-width: 0
+}
+
+.Layout__Section--fullWidth {
+    flex: 1 1 100%
+}
+
+.Layout__Section--oneHalf {
+    flex: 1 1 28.125rem;
+    min-width: 0
+}
+
+.Layout__Section--oneThird {
+    flex: 1 1 15rem;
+    min-width: 0
+}
+
+.Layout__AnnotatedSection {
+    flex: 1 1 100%;
+    min-width: 0
+}
+
+.Layout__AnnotatedSection,.Layout__Section {
+    margin-left: var(--p-space-5);
+    margin-top: var(--p-space-4);
+    max-width: calc(100% - var(--p-space-5))
+}
+
+@media (max-width: 48.0625em) and (min-width:30.625em),(min-width:45.625em) {
+    [data-has-navigation] .Layout__AnnotatedSection+.Layout__AnnotatedSection,[data-has-navigation] .Layout__Section+.Layout__AnnotatedSection {
+        border-top:var(--p-border-divider);
+        padding-top: var(--p-space-4)
+    }
+}
+
+@media (min-width: 30.625em) {
+    .Layout__AnnotatedSection+.Layout__AnnotatedSection,.Layout__Section+.Layout__AnnotatedSection {
+        border-top:var(--p-border-divider);
+        padding-top: var(--p-space-4)
+    }
+}
+
+.Layout__AnnotationWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: calc(var(--p-space-5)*-1);
+    margin-top: calc(var(--p-space-4)*-1)
+}
+
+.Layout__AnnotationContent {
+    flex: 2 2 30rem
+}
+
+.Layout__Annotation {
+    flex: 1 1 15rem;
+    padding: var(--p-space-4) var(--p-space-5) 0
+}
+
+@media (max-width: 48.0625em) and (min-width:30.625em),(min-width:45.625em) {
+    [data-has-navigation] .Layout__Annotation {
+        padding:var(--p-space-4) 0 0
+    }
+}
+
+@media (min-width: 30.625em) {
+    .Layout__Annotation {
+        padding:var(--p-space-4) 0 0
+    }
+}
+
+@media (max-width: 48.0625em) and (min-width:50em),(min-width:65em) {
+    [data-has-navigation] .Layout__Annotation {
+        padding:var(--p-space-5) var(--p-space-5) var(--p-space-5) 0
+    }
+}
+
+@media (min-width: 50em) {
+    .Layout__Annotation {
+        padding:var(--p-space-5) var(--p-space-5) var(--p-space-5) 0
+    }
+}
+
+.Layout__AnnotationContent,.Layout__Annotation {
+    margin-left: var(--p-space-5);
+    margin-top: var(--p-space-4);
+    max-width: calc(100% - var(--p-space-5));
+    min-width: 0
+}
+
+.Layout__AnnotationDescription {
+    color: var(--p-text-subdued)
+}

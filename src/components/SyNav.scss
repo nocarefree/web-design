@@ -1,0 +1,7 @@
+.synav{
+    &_listItem{
+        color: red
+    }
+
+    @import "SyNavItem";
+}

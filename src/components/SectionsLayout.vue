@@ -34,18 +34,12 @@ import { ref, onMounted , provide, reactive } from 'vue'
 
 import Item from "./module/Item.vue"
 import SortList from "./module/SortList.vue"
-import type {ModuleBlock} from '@/type'
+import Layout from '@/settings/config/shopify.json'
 
 
-interface PageLayout{
-    template: ModuleBlock,
-	header: ModuleBlock,
-	page: ModuleBlock,
-	footer: ModuleBlock,
-}
 
 
-const layout = ref<PageLayout | null >();
+const config = ref<any | null>();
 const modules = ref();
 
 modules.value = [
@@ -56,48 +50,7 @@ modules.value = [
     'hero',
     
 ]
-
-layout.value = {
-	template:{
-		id: 'template',
-		name: 'template',
-	},
-	header:{
-		id: 'header',
-		name: 'header',
-	},
-	footer:{
-		id: 'footer',
-		name: 'footer',
-        blockTypes: ['link_list','newsletter','text'],
-        blocksLimit: 4,
-        blocks:[],
-	},
-	page:{
-		id: 'home-1',
-		name: 'page',
-		blocks: [
-			{
-				id: 'image-bar',
-				name: 'image-bar',
-				blocks:[
-					{ id:'image-bar/image-0', name: 'image', label:'图片'},
-					{ id:'image-bar/image-2', name: 'image', label:'图片'},
-					{ id:'image-bar/image-3', name: 'image', label:'图片'},
-				],
-			},
-			{
-				id: 'feature-row',
-				name: "feature-row",
-				blocks:[
-					{ id:'feature-row/image-0', name: 'image', label:'添加标题或标语'},
-					{ id:'feature-row/image-2', name: 'image', label:'添加标题或标语'},
-					{ id:'feature-row/image-3', name: 'image', label:'添加标题或标语'},
-				],
-			},
-		]
-	},
-}
+config.value = Layout;
 
 
 
@@ -113,8 +66,8 @@ const onItemSelected:Function = (item: Function)=>{
 }
 
 const onItemAppend:Function = (id: string)=>{
-    let i = findObject
-    i.blocks[] = 
+    // let i = findObject
+    // i.blocks[] = 
 }
 
 provide('onItemSelected', onItemSelected);
@@ -286,7 +239,7 @@ provide('onItemAppend', onItemAppend);
                     background-color: #e4e5e7;
                 }
             }
-
+            
             &:not(.expanded) >button i {
                 transform: rotate(-90deg)
             }

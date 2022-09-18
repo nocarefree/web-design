@@ -1,0 +1,254 @@
+<template>
+    <Choice :label="label" :id="id" :labelHiddel="labelHiddel">
+        <span 
+            :class="$style.Checkbox"
+            @mouseenter="()=>isHover = true"
+            @mouseleave="()=>isHover = false"
+        >
+            <input 
+                :id="id" 
+                :class="[
+                    $style.Checkbox__Input,
+                    isTndeterminate ? $style['Checkbox__Input--indeterminate'] : null
+                ]"
+                type="checkbox"
+                role="checkbox"
+                :checked="isChecked? true : false"
+                :aria-invalid="false"
+                :indeterminate="isTndeterminate"
+                @click.stop="onClick"
+            />
+            <span :class="[
+                $style.Checkbox__Backdrop,
+                isHover ? $style['Checkbox--hover']: null, 
+            ]"></span>
+            <span :class="$style.Checkbox__Icon">
+                <Icon :svg-name="isTndeterminate?'MinusMinor':'TickSmallMinor'"></Icon>
+            </span>
+        </span>
+    </Choice>
+</template>
+
+<script setup lang="ts">
+    import { ref, computed } from 'vue'
+    import Choice from '../choice/index.jsx'
+    import Icon from '../icon/Index.vue'
+    import { uid } from 'quasar';
+
+    const props = defineProps({
+        id: {
+            type: String,
+            deufalt:()=>{
+                return uid();
+            }
+        },
+        label :{
+            type: String,
+        },
+        labelHiddel: {
+            type: Boolean,
+            default: false,
+        },
+        modelValue: {
+            required: true,
+            type: null,
+        }
+    })
+    const emit = defineEmits(['update:modelValue','change'])
+
+    const valueIsArray = computed<boolean>(()=>{
+        return props.modelValue instanceof Array
+    })
+
+    const isTndeterminate = computed(()=>{
+        return !valueIsArray.value && props.modelValue == null 
+    })
+
+    const isChecked = computed(()=>{
+        return !isTndeterminate.value && ( 
+            valueIsArray.value ? (props.modelValue.indexOf(props.id) > -1) : props.modelValue 
+        );
+    })
+
+    const isHover = ref(false)
+
+    const onClick = ()=>{
+        let post:any;
+
+        if(valueIsArray.value){
+            post = [...props.modelValue];
+            if(isChecked){
+                post.splice( post.indexOf(props.id), 1 )
+            }else{
+                post.push(props.id);
+            }
+        }else{
+            post = !props.modelValue;
+        }
+
+        emit('update:modelValue', post)
+        emit('change')
+    }
+</script>
+
+
+
+<style module lang="scss">
+    .Checkbox {
+    margin: var(--p-choice-margin);
+    position: relative
+}
+
+.Checkbox__Input {
+    border: 0 !important;
+    clip-path: inset(50%) !important;
+    height: .0625rem !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    top: 0;
+    white-space: nowrap !important;
+    width: .0625rem !important
+}
+
+.Checkbox__Input.Checkbox--keyFocused+.Checkbox__Backdrop:after {
+    box-shadow: 0 0 0 .125rem var(--p-focused);
+    outline: var(--p-border-width-1) solid #0000
+}
+
+.Checkbox__Input.Checkbox__Input--indeterminate+.Checkbox__Backdrop,
+.Checkbox__Input:active:not(:disabled)+.Checkbox__Backdrop,
+.Checkbox__Input:checked+.Checkbox__Backdrop {
+    border-color: var(--p-interactive)
+}
+
+.Checkbox__Input.Checkbox__Input--indeterminate+.Checkbox__Backdrop:before,
+.Checkbox__Input:active:not(:disabled)+.Checkbox__Backdrop:before,
+.Checkbox__Input:checked+.Checkbox__Backdrop:before {
+    opacity: 1;
+    transform: scale(1)
+}
+
+@media (-ms-high-contrast:active) {
+
+    .Checkbox__Input.Checkbox__Input--indeterminate+.Checkbox__Backdrop:before,
+    .Checkbox__Input:active:not(:disabled)+.Checkbox__Backdrop:before,
+    .Checkbox__Input:checked+.Checkbox__Backdrop:before {
+        border: var(--p-border-width-2) solid windowText
+    }
+}
+
+.Checkbox__Input.Checkbox__Input--indeterminate~.Checkbox__Icon,
+.Checkbox__Input:active:not(:disabled)~.Checkbox__Icon,
+.Checkbox__Input:checked~.Checkbox__Icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    transition: opacity var(--p-duration-150) var(--p-ease), transform var(--p-duration-150) var(--p-ease)
+}
+
+.Checkbox__Input:disabled+.Checkbox__Backdrop {
+    border-color: var(--p-border-disabled)
+}
+
+.Checkbox__Input:disabled+.Checkbox__Backdrop:before {
+    background-color: var(--p-action-secondary-disabled)
+}
+
+.Checkbox__Input:disabled+.Checkbox__Backdrop:hover {
+    cursor: default
+}
+
+.Checkbox__Input:disabled:checked+.Checkbox__Backdrop,
+.Checkbox__Input:disabled:checked+.Checkbox__Backdrop:before {
+    background: var(--p-border-disabled)
+}
+
+.Checkbox__Backdrop {
+    background-color: var(--p-surface);
+    border: var(--p-control-border-width) solid var(--p-border);
+    border-radius: var(--p-border-radius-1);
+    display: block;
+    height: 100%;
+    position: relative;
+    width: 100%
+}
+
+.Checkbox__Backdrop:before {
+    background-color: var(--p-interactive);
+    border-radius: var(--p-border-radius-1);
+    bottom: calc(var(--p-control-border-width)*-1);
+    content: "";
+    left: calc(var(--p-control-border-width)*-1);
+    opacity: 0;
+    position: absolute;
+    right: calc(var(--p-control-border-width)*-1);
+    top: calc(var(--p-control-border-width)*-1);
+    transform: scale(.25);
+    transition: opacity var(--p-duration-100) var(--p-ease), transform var(--p-duration-100) var(--p-ease)
+}
+
+.Checkbox__Backdrop.Checkbox--hover,
+.Checkbox__Backdrop:hover {
+    border-color: var(--p-border-hovered);
+    cursor: pointer
+}
+
+.Checkbox__Backdrop:after {
+    border-radius: calc(var(--p-border-radius-1) + .0625rem);
+    bottom: calc(var(--p-control-border-width)*-1 - .0625rem);
+    box-shadow: 0 0 0 calc(var(--p-control-border-width)*-1 - .0625rem) var(--p-focused);
+    content: "";
+    display: block;
+    left: calc(var(--p-control-border-width)*-1 - .0625rem);
+    pointer-events: none;
+    position: absolute;
+    right: calc(var(--p-control-border-width)*-1 - .0625rem);
+    top: calc(var(--p-control-border-width)*-1 - .0625rem);
+    transition: box-shadow var(--p-duration-100) var(--p-ease);
+    z-index: 1
+}
+
+.Checkbox__Icon {
+    left: 50%;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(.25);
+    transform-origin: 50% 50%;
+    transition: opacity var(--p-duration-100) var(--p-ease), transform var(--p-duration-100) var(--p-ease)
+}
+
+.Checkbox__Icon svg {
+    fill: var(--p-icon-on-interactive)
+}
+
+@media (-ms-high-contrast:active) {
+    .Checkbox__Icon {
+        fill: windowText
+    }
+}
+
+.Checkbox--error .Checkbox__Icon svg {
+    fill: var(--p-icon-on-critical)
+}
+
+.Checkbox--error .Checkbox__Backdrop {
+    background-color: var(--p-surface-critical);
+    border-color: var(--p-border-critical)
+}
+
+.Checkbox--error .Checkbox__Backdrop.Checkbox--hover,
+.Checkbox--error .Checkbox__Backdrop:hover {
+    border-color: var(--p-border-critical)
+}
+
+.Checkbox--error .Checkbox__Backdrop:before,
+.Checkbox--error .Checkbox__Input.Checkbox__Input--indeterminate+.Checkbox__Backdrop:before,
+.Checkbox--error .Checkbox__Input:active+.Checkbox__Backdrop:before,
+.Checkbox--error .Checkbox__Input:checked+.Checkbox__Backdrop:before {
+    background-color: var(--p-border-critical)
+}
+
+</style>
